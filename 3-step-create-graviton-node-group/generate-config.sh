@@ -27,14 +27,11 @@ metadata:
 
 managedNodeGroups:
   - name: graviton-ng
+    instanceType: t4g.xlarge
     desiredCapacity: 2
     minSize: 2
     maxSize: 4
     amiFamily: AmazonLinux2
-    instanceSelector:
-      cpuArchitecture: arm64
-      vCPUs: 2
-      memory: 4GiB
     volumeSize: 80
     privateNetworking: true
     securityGroups:
