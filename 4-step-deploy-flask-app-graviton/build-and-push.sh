@@ -10,7 +10,10 @@ ECR_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-worl
 # Login to ECR
 aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
-# Create a builder instance
+# Remove existing builder if exists
+docker buildx rm multiarch-builder 2>/dev/null || true
+
+# Create a new builder instance
 docker buildx create --name multiarch-builder --use
 
 # Build and push multi-architecture image
@@ -20,5 +23,5 @@ docker buildx build \
   --push \
   .
 
-# Remove the builder
+# Clean up
 docker buildx rm multiarch-builder

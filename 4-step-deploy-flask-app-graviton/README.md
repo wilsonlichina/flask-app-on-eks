@@ -41,6 +41,8 @@ docker buildx inspect --bootstrap
 docker buildx inspect multiarch-builder | grep Platforms
 ```
 
+Note: The build script will handle builder cleanup and recreation automatically.
+
 ## Configure Graviton Node Taints
 
 1. Verify Graviton nodes:
@@ -81,6 +83,16 @@ chmod +x build-and-push.sh
 ```bash
 ./build-and-push.sh
 ```
+
+Note: During the build process, you may see some warnings:
+- "existing instance for multiarch-builder" - safely handled by the script
+- Dockerfile syntax warnings - cosmetic only, does not affect functionality
+- Platform settings warnings - can be safely ignored
+
+The build script automatically:
+- Removes any existing builder instance
+- Creates a fresh builder for each build
+- Cleans up after completion
 
 3. Seamless Deployment to EKS:
 ```bash
@@ -222,3 +234,6 @@ kubectl delete -f k8s-manifest.yaml
 
 # Optional: Remove node taints if no longer needed
 kubectl taint nodes -l cpu-type=arm64 graviton=true:NoSchedule-
+
+# Optional: Clean up Docker buildx builder
+docker buildx rm multiarch-builder
