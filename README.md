@@ -5,30 +5,34 @@ Simple Flask application deployment to AWS EKS cluster, using existing Applicati
 ## Deployment Steps
 
 ### Prerequisites
-- macOS
-- Docker Desktop installed and running
-- AWS CLI configured with account 595115466597
-- kubectl configured for EKS cluster in us-east-1
+- AWS CLI configured with your AWS account
+- kubectl configured for EKS cluster
 
 ### Build and Deploy
 
-1. Build and push image to ECR:
+1. Get your AWS account ID and region:
+```bash
+export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+export AWS_REGION=$(aws configure get region)
+```
+
+2. Build and push image to ECR:
 ```bash
 # Login to ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 595115466597.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
 
 # Build and push
 docker build -t flask-hello-world .
-docker tag flask-hello-world:latest 595115466597.dkr.ecr.us-east-1.amazonaws.com/flask-hello-world:latest
-docker push 595115466597.dkr.ecr.us-east-1.amazonaws.com/flask-hello-world:latest
+docker tag flask-hello-world:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-world:latest
+docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-world:latest
 ```
 
-2. Deploy to EKS:
+3. Deploy to EKS:
 ```bash
 kubectl apply -f k8s-manifest.yaml
 ```
 
-3. Verify deployment:
+4. Verify deployment:
 ```bash
 # Check Pod status
 kubectl get pods -n flask-app -l app.kubernetes.io/name=app-flask

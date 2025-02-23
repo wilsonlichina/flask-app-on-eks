@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: app-flask
-        image: 595115466597.dkr.ecr.us-east-1.amazonaws.com/flask-hello-world:latest
+        image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-world:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
