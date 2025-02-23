@@ -1,0 +1,550 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-02-22T14:29:46Z"
+    generateName: adot-collector-
+    labels:
+      app: aws-adot
+      component: adot-collector
+      controller-revision-hash: 5f94bb6746
+      pod-template-generation: "1"
+    name: adot-collector-2qxvk
+    namespace: adot-col
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: adot-collector
+      uid: 3052e9d6-b300-40be-a3d5-29b5d7c16f44
+    resourceVersion: "113163351"
+    uid: 5a1ef97b-6ca8-481d-a687-299ba51ec883
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-35-203.ec2.internal
+    containers:
+    - command:
+      - /awscollector
+      - --config=/conf/adot-collector-config.yaml
+      env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: regional
+      - name: AWS_DEFAULT_REGION
+        value: us-east-1
+      - name: AWS_REGION
+        value: us-east-1
+      - name: AWS_ROLE_ARN
+        value: arn:aws:iam::595115466597:role/amp-iamproxy-ingest-role
+      - name: AWS_WEB_IDENTITY_TOKEN_FILE
+        value: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+      image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 13133
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: adot-collector
+      ports:
+      - containerPort: 8888
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 13133
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /conf
+        name: adot-collector-config-vol
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-wbll6
+        readOnly: true
+      - mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+        name: aws-iam-token
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-35-203.ec2.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: amp-iamproxy-ingest-service-account
+    serviceAccountName: amp-iamproxy-ingest-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: aws-iam-token
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            audience: sts.amazonaws.com
+            expirationSeconds: 86400
+            path: token
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: adot-collector-config
+          path: adot-collector-config.yaml
+        name: adot-collector-conf
+      name: adot-collector-config-vol
+    - name: kube-api-access-wbll6
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:58Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:46Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:46Z"
+      message: 'containers with unready status: [adot-collector]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:46Z"
+      message: 'containers with unready status: [adot-collector]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:46Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://38739da834f1e5375806c7292a8d83338a8e7bdc809b0f2e0d7085ccf70f12b9
+      image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+      imageID: public.ecr.aws/aws-observability/aws-otel-collector@sha256:cd481b72f3b98710ba69c27dca5a329a9d57808d9c74b288cb26c177938cbcf1
+      lastState:
+        terminated:
+          containerID: containerd://38739da834f1e5375806c7292a8d83338a8e7bdc809b0f2e0d7085ccf70f12b9
+          exitCode: 1
+          finishedAt: "2025-02-22T14:56:15Z"
+          reason: Error
+          startedAt: "2025-02-22T14:56:14Z"
+      name: adot-collector
+      ready: false
+      restartCount: 10
+      started: false
+      state:
+        waiting:
+          message: back-off 5m0s restarting failed container=adot-collector pod=adot-collector-2qxvk_adot-col(5a1ef97b-6ca8-481d-a687-299ba51ec883)
+          reason: CrashLoopBackOff
+    hostIP: 192.168.35.203
+    hostIPs:
+    - ip: 192.168.35.203
+    phase: Running
+    podIP: 192.168.44.74
+    podIPs:
+    - ip: 192.168.44.74
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:46Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-02-22T14:29:34Z"
+    generateName: adot-collector-
+    labels:
+      app: aws-adot
+      component: adot-collector
+      controller-revision-hash: 5f94bb6746
+      pod-template-generation: "1"
+    name: adot-collector-48s48
+    namespace: adot-col
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: adot-collector
+      uid: 3052e9d6-b300-40be-a3d5-29b5d7c16f44
+    resourceVersion: "113163145"
+    uid: 59ca92b9-ecb4-4302-882a-7474a0a7039b
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-24-235.ec2.internal
+    containers:
+    - command:
+      - /awscollector
+      - --config=/conf/adot-collector-config.yaml
+      env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: regional
+      - name: AWS_DEFAULT_REGION
+        value: us-east-1
+      - name: AWS_REGION
+        value: us-east-1
+      - name: AWS_ROLE_ARN
+        value: arn:aws:iam::595115466597:role/amp-iamproxy-ingest-role
+      - name: AWS_WEB_IDENTITY_TOKEN_FILE
+        value: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+      image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+      imagePullPolicy: Always
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 13133
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      name: adot-collector
+      ports:
+      - containerPort: 8888
+        protocol: TCP
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /
+          port: 13133
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 400Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /conf
+        name: adot-collector-config-vol
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-w2lhv
+        readOnly: true
+      - mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+        name: aws-iam-token
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-24-235.ec2.internal
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: amp-iamproxy-ingest-service-account
+    serviceAccountName: amp-iamproxy-ingest-service-account
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: aws-iam-token
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            audience: sts.amazonaws.com
+            expirationSeconds: 86400
+            path: token
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: adot-collector-config
+          path: adot-collector-config.yaml
+        name: adot-collector-conf
+      name: adot-collector-config-vol
+    - name: kube-api-access-w2lhv
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:47Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:34Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:34Z"
+      message: 'containers with unready status: [adot-collector]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:34Z"
+      message: 'containers with unready status: [adot-collector]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:34Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://3b7c9094d2945e1de552fd974b4e8f894b5ca0b938598bac569513d6b92df547
+      image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+      imageID: public.ecr.aws/aws-observability/aws-otel-collector@sha256:cd481b72f3b98710ba69c27dca5a329a9d57808d9c74b288cb26c177938cbcf1
+      lastState:
+        terminated:
+          containerID: containerd://3b7c9094d2945e1de552fd974b4e8f894b5ca0b938598bac569513d6b92df547
+          exitCode: 1
+          finishedAt: "2025-02-22T14:55:52Z"
+          reason: Error
+          startedAt: "2025-02-22T14:55:52Z"
+      name: adot-collector
+      ready: false
+      restartCount: 10
+      started: false
+      state:
+        waiting:
+          message: back-off 5m0s restarting failed container=adot-collector pod=adot-collector-48s48_adot-col(59ca92b9-ecb4-4302-882a-7474a0a7039b)
+          reason: CrashLoopBackOff
+    hostIP: 192.168.24.235
+    hostIPs:
+    - ip: 192.168.24.235
+    phase: Running
+    podIP: 192.168.16.80
+    podIPs:
+    - ip: 192.168.16.80
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:34Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"aws-adot","component":"adot-collector"},"name":"adot-collector","namespace":"adot-col"},"spec":{"ports":[{"name":"metrics","port":8888}],"selector":{"component":"adot-collector"},"type":"NodePort"}}
+    creationTimestamp: "2024-08-07T15:15:36Z"
+    labels:
+      app: aws-adot
+      component: adot-collector
+    name: adot-collector
+    namespace: adot-col
+    resourceVersion: "16313119"
+    uid: 5901a9e2-1d4b-4081-b72a-d41d7314d0a4
+  spec:
+    clusterIP: 10.100.48.206
+    clusterIPs:
+    - 10.100.48.206
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: metrics
+      nodePort: 31418
+      port: 8888
+      protocol: TCP
+      targetPort: 8888
+    selector:
+      component: adot-collector
+    sessionAffinity: None
+    type: NodePort
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"app":"aws-adot","component":"adot-collector"},"name":"adot-collector","namespace":"adot-col"},"spec":{"minReadySeconds":5,"selector":{"matchLabels":{"app":"aws-adot","component":"adot-collector"}},"template":{"metadata":{"labels":{"app":"aws-adot","component":"adot-collector"}},"spec":{"containers":[{"command":["/awscollector","--config=/conf/adot-collector-config.yaml"],"image":"public.ecr.aws/aws-observability/aws-otel-collector:latest","livenessProbe":{"httpGet":{"path":"/","port":13133}},"name":"adot-collector","ports":[{"containerPort":8888}],"readinessProbe":{"httpGet":{"path":"/","port":13133}},"resources":{"limits":{"cpu":1,"memory":"2Gi"},"requests":{"cpu":"200m","memory":"400Mi"}},"volumeMounts":[{"mountPath":"/conf","name":"adot-collector-config-vol"}]}],"serviceAccountName":"amp-iamproxy-ingest-service-account","volumes":[{"configMap":{"items":[{"key":"adot-collector-config","path":"adot-collector-config.yaml"}],"name":"adot-collector-conf"},"name":"adot-collector-config-vol"}]}}}}
+    creationTimestamp: "2024-08-07T15:15:37Z"
+    generation: 1
+    labels:
+      app: aws-adot
+      component: adot-collector
+    name: adot-collector
+    namespace: adot-col
+    resourceVersion: "113156248"
+    uid: 3052e9d6-b300-40be-a3d5-29b5d7c16f44
+  spec:
+    minReadySeconds: 5
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: aws-adot
+        component: adot-collector
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: aws-adot
+          component: adot-collector
+      spec:
+        containers:
+        - command:
+          - /awscollector
+          - --config=/conf/adot-collector-config.yaml
+          image: public.ecr.aws/aws-observability/aws-otel-collector:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 13133
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: adot-collector
+          ports:
+          - containerPort: 8888
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 13133
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
+            requests:
+              cpu: 200m
+              memory: 400Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /conf
+            name: adot-collector-config-vol
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: amp-iamproxy-ingest-service-account
+        serviceAccountName: amp-iamproxy-ingest-service-account
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: adot-collector-config
+              path: adot-collector-config.yaml
+            name: adot-collector-conf
+          name: adot-collector-config-vol
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberMisscheduled: 0
+    numberReady: 0
+    numberUnavailable: 2
+    observedGeneration: 1
+    updatedNumberScheduled: 2
+kind: List
+metadata:
+  resourceVersion: ""

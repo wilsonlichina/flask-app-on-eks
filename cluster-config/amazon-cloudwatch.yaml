@@ -1,0 +1,3306 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    creationTimestamp: "2025-02-22T14:35:25Z"
+    generateName: amazon-cloudwatch-observability-controller-manager-67c546c659-
+    labels:
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      control-plane: controller-manager
+      pod-template-hash: 67c546c659
+    name: amazon-cloudwatch-observability-controller-manager-67c546cpd545
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: amazon-cloudwatch-observability-controller-manager-67c546c659
+      uid: ee6af2fe-7457-4a7c-ba78-58ade11e557d
+    resourceVersion: "113154324"
+    uid: f5256c84-9d82-4ceb-841e-a9892da944b6
+  spec:
+    containers:
+    - args:
+      - --auto-instrumentation-config={"dotnet":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"},"runtime_metrics":{"enabled":"true"}},"java":{"limits":{"cpu":"500m","memory":"64Mi"},"requests":{"cpu":"50m","memory":"64Mi"},"runtime_metrics":{"enabled":"true"}},"nodejs":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"}},"python":{"limits":{"cpu":"500m","memory":"32Mi"},"requests":{"cpu":"50m","memory":"32Mi"},"runtime_metrics":{"enabled":"true"}}}
+      - --auto-annotation-config={"dotnet":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"java":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"nodejs":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"python":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]}}
+      - --auto-instrumentation-java-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v1.33.0
+      - --auto-instrumentation-python-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.8.0
+      - --auto-instrumentation-dotnet-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.6.0
+      - --auto-instrumentation-nodejs-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node:v0.5.0
+      - --target-allocator-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-target-allocator:1.0.0
+      - --feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation
+      command:
+      - /manager
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator:2.1.0
+      imagePullPolicy: IfNotPresent
+      name: manager
+      ports:
+      - containerPort: 9443
+        name: webhook-server
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /tmp/k8s-webhook-server/serving-certs
+        name: cert
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-x5r2k
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    nodeName: ip-192-168-24-235.ec2.internal
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: amazon-cloudwatch-observability-controller-manager
+    serviceAccountName: amazon-cloudwatch-observability-controller-manager
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+    volumes:
+    - name: cert
+      secret:
+        defaultMode: 420
+        secretName: amazon-cloudwatch-observability-controller-manager-service-cert
+    - name: kube-api-access-x5r2k
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:35:36Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:35:25Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:35:36Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:35:36Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:35:25Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://575d1e045a0d617bc7e3db47faa96e76e260194defd02c8b581abc6c89f2e60f
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator:2.1.0
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator@sha256:76cb9eca5b5f06059f0b2595997f55d1195a75e9cbd90dec6cd3af446feb6073
+      lastState: {}
+      name: manager
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-22T14:35:35Z"
+    hostIP: 192.168.24.235
+    hostIPs:
+    - ip: 192.168.24.235
+    phase: Running
+    podIP: 192.168.20.88
+    podIPs:
+    - ip: 192.168.20.88
+    qosClass: Burstable
+    startTime: "2025-02-22T14:35:25Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: 51e19b15ecbd50c1024c08a985dbc067f9ca16a8ebc182fd51f04683f1bddbff
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8888"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2025-02-22T14:29:10Z"
+    generateName: cloudwatch-agent-
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+      controller-revision-hash: bf7cc78f4
+      pod-template-generation: "7"
+    name: cloudwatch-agent-2t9dr
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: cloudwatch-agent
+      uid: fa40ce21-10fb-4b34-8601-6f6b3b7fc1a2
+    resourceVersion: "113150816"
+    uid: 97f5ac93-0483-4eed-946a-5445cd4f3cc7
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-35-203.ec2.internal
+    containers:
+    - env:
+      - name: K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: HOST_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: K8S_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+      imagePullPolicy: IfNotPresent
+      name: otc-container
+      ports:
+      - containerPort: 4315
+        hostPort: 4315
+        name: cwa-appsig-grpc
+        protocol: TCP
+      - containerPort: 4316
+        hostPort: 4316
+        name: cwa-appsig-http
+        protocol: TCP
+      - containerPort: 2000
+        hostPort: 2000
+        name: cwa-appsig-xray
+        protocol: TCP
+      - containerPort: 4311
+        hostPort: 4311
+        name: cwa-server
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/cwagentconfig
+        name: otc-internal
+      - mountPath: /rootfs
+        name: rootfs
+        readOnly: true
+      - mountPath: /var/run/docker.sock
+        name: dockersock
+        readOnly: true
+      - mountPath: /run/containerd/containerd.sock
+        name: containerdsock
+      - mountPath: /var/lib/docker
+        name: varlibdocker
+        readOnly: true
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /dev/disk
+        name: devdisk
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-cert
+        name: agenttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+        name: agentclienttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+        name: agentservertls
+        readOnly: true
+      - mountPath: /var/lib/kubelet/pod-resources
+        name: kubelet-podresources
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-5cvcp
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: ip-192-168-35-203.ec2.internal
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: cloudwatch-agent
+    serviceAccountName: cloudwatch-agent
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: cwagentconfig.json
+          path: cwagentconfig.json
+        name: cloudwatch-agent
+      name: otc-internal
+    - hostPath:
+        path: /var/lib/kubelet/pod-resources
+        type: Directory
+      name: kubelet-podresources
+    - hostPath:
+        path: /
+        type: ""
+      name: rootfs
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: dockersock
+    - hostPath:
+        path: /var/lib/docker
+        type: ""
+      name: varlibdocker
+    - hostPath:
+        path: /run/containerd/containerd.sock
+        type: ""
+      name: containerdsock
+    - hostPath:
+        path: /sys
+        type: ""
+      name: sys
+    - hostPath:
+        path: /dev/disk/
+        type: ""
+      name: devdisk
+    - name: agenttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-cert
+    - name: agentclienttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-client-cert
+    - name: agentservertls
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: server.crt
+        - key: tls.key
+          path: server.key
+        secretName: amazon-cloudwatch-observability-agent-server-cert
+    - name: kube-api-access-5cvcp
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:39Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:39Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:39Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://22bd8b447086213b51568615b15434edb7844aa35c200a72eb58db8bc3b6d8bb
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent@sha256:c25c1715bdd0074bb157093ec0ed71810e88b31941b498cfd4228ef594ccedad
+      lastState: {}
+      name: otc-container
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-22T14:29:38Z"
+    hostIP: 192.168.35.203
+    hostIPs:
+    - ip: 192.168.35.203
+    phase: Running
+    podIP: 192.168.35.203
+    podIPs:
+    - ip: 192.168.35.203
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:10Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: 51e19b15ecbd50c1024c08a985dbc067f9ca16a8ebc182fd51f04683f1bddbff
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8888"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2025-02-22T14:29:10Z"
+    generateName: cloudwatch-agent-
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+      controller-revision-hash: bf7cc78f4
+      pod-template-generation: "7"
+    name: cloudwatch-agent-thncf
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: cloudwatch-agent
+      uid: fa40ce21-10fb-4b34-8601-6f6b3b7fc1a2
+    resourceVersion: "113150645"
+    uid: a925da84-01c6-4a9a-a3be-35f8b8eedae1
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-24-235.ec2.internal
+    containers:
+    - env:
+      - name: K8S_NODE_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: HOST_IP
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: status.hostIP
+      - name: HOST_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: K8S_NAMESPACE
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.namespace
+      - name: POD_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+      imagePullPolicy: IfNotPresent
+      name: otc-container
+      ports:
+      - containerPort: 4315
+        hostPort: 4315
+        name: cwa-appsig-grpc
+        protocol: TCP
+      - containerPort: 4316
+        hostPort: 4316
+        name: cwa-appsig-http
+        protocol: TCP
+      - containerPort: 2000
+        hostPort: 2000
+        name: cwa-appsig-xray
+        protocol: TCP
+      - containerPort: 4311
+        hostPort: 4311
+        name: cwa-server
+        protocol: TCP
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /etc/cwagentconfig
+        name: otc-internal
+      - mountPath: /rootfs
+        name: rootfs
+        readOnly: true
+      - mountPath: /var/run/docker.sock
+        name: dockersock
+        readOnly: true
+      - mountPath: /run/containerd/containerd.sock
+        name: containerdsock
+      - mountPath: /var/lib/docker
+        name: varlibdocker
+        readOnly: true
+      - mountPath: /sys
+        name: sys
+        readOnly: true
+      - mountPath: /dev/disk
+        name: devdisk
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-cert
+        name: agenttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+        name: agentclienttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+        name: agentservertls
+        readOnly: true
+      - mountPath: /var/lib/kubelet/pod-resources
+        name: kubelet-podresources
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-74ld8
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: ip-192-168-24-235.ec2.internal
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: cloudwatch-agent
+    serviceAccountName: cloudwatch-agent
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - configMap:
+        defaultMode: 420
+        items:
+        - key: cwagentconfig.json
+          path: cwagentconfig.json
+        name: cloudwatch-agent
+      name: otc-internal
+    - hostPath:
+        path: /var/lib/kubelet/pod-resources
+        type: Directory
+      name: kubelet-podresources
+    - hostPath:
+        path: /
+        type: ""
+      name: rootfs
+    - hostPath:
+        path: /var/run/docker.sock
+        type: ""
+      name: dockersock
+    - hostPath:
+        path: /var/lib/docker
+        type: ""
+      name: varlibdocker
+    - hostPath:
+        path: /run/containerd/containerd.sock
+        type: ""
+      name: containerdsock
+    - hostPath:
+        path: /sys
+        type: ""
+      name: sys
+    - hostPath:
+        path: /dev/disk/
+        type: ""
+      name: devdisk
+    - name: agenttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-cert
+    - name: agentclienttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-client-cert
+    - name: agentservertls
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: server.crt
+        - key: tls.key
+          path: server.key
+        secretName: amazon-cloudwatch-observability-agent-server-cert
+    - name: kube-api-access-74ld8
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:27Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:27Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:27Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://a30e3383642b0bfbdddabdeedeba3bd5ca9b58ab404340b6451819fa39763664
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent@sha256:c25c1715bdd0074bb157093ec0ed71810e88b31941b498cfd4228ef594ccedad
+      lastState: {}
+      name: otc-container
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-22T14:29:26Z"
+    hostIP: 192.168.24.235
+    hostIPs:
+    - ip: 192.168.24.235
+    phase: Running
+    podIP: 192.168.24.235
+    podIPs:
+    - ip: 192.168.24.235
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:10Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/config: 343bfdc4f6cc519ad04fcf86e8ed75b5adb1dbbf7352093d37c3acbdc05bdd69
+    creationTimestamp: "2025-02-22T14:29:10Z"
+    generateName: fluent-bit-
+    labels:
+      controller-revision-hash: 56cc5b4558
+      k8s-app: fluent-bit
+      kubernetes.io/cluster-service: "true"
+      pod-template-generation: "4"
+      version: v1
+    name: fluent-bit-6qbjf
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: fluent-bit
+      uid: 9b997f4f-0e78-4e6b-9344-89f29f11367f
+    resourceVersion: "113151024"
+    uid: 4c463c8f-ae83-462e-9681-4ee05b0e4cab
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-35-203.ec2.internal
+    containers:
+    - env:
+      - name: AWS_REGION
+        value: us-east-1
+      - name: CLUSTER_NAME
+        value: my-cc-cluster
+      - name: READ_FROM_HEAD
+        value: "Off"
+      - name: READ_FROM_TAIL
+        value: "On"
+      - name: HOST_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: HOSTNAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: CI_VERSION
+        value: k8s/1.3.17
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.32.5
+      imagePullPolicy: Always
+      name: fluent-bit
+      resources:
+        limits:
+          cpu: 500m
+          memory: 250Mi
+        requests:
+          cpu: 50m
+          memory: 25Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/fluent-bit/state
+        name: fluentbitstate
+      - mountPath: /var/log
+        name: varlog
+        readOnly: true
+      - mountPath: /var/lib/docker/containers
+        name: varlibdockercontainers
+        readOnly: true
+      - mountPath: /fluent-bit/etc/
+        name: fluent-bit-config
+      - mountPath: /run/log/journal
+        name: runlogjournal
+        readOnly: true
+      - mountPath: /var/log/dmesg
+        name: dmesg
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+        name: agentclienttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+        name: agentservertls
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-bkrv9
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: ip-192-168-35-203.ec2.internal
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: cloudwatch-agent
+    serviceAccountName: cloudwatch-agent
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/fluent-bit/state
+        type: ""
+      name: fluentbitstate
+    - hostPath:
+        path: /var/log
+        type: ""
+      name: varlog
+    - hostPath:
+        path: /var/lib/docker/containers
+        type: ""
+      name: varlibdockercontainers
+    - configMap:
+        defaultMode: 420
+        name: fluent-bit-config
+      name: fluent-bit-config
+    - hostPath:
+        path: /run/log/journal
+        type: ""
+      name: runlogjournal
+    - hostPath:
+        path: /var/log/dmesg
+        type: ""
+      name: dmesg
+    - name: agentclienttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: client.crt
+        - key: tls.key
+          path: client.key
+        secretName: amazon-cloudwatch-observability-agent-client-cert
+    - name: agentservertls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-server-cert
+    - name: kube-api-access-bkrv9
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:51Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:51Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:51Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://dcc886428cce4d1bc98d92eb4b4043044a0033646dadf1d6d32abacc5c846cc8
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.32.5
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit@sha256:e2dd497858e734ee91edaab31022fd4a1651713363bdc96b242bfacb931c8b3d
+      lastState: {}
+      name: fluent-bit
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-22T14:29:51Z"
+    hostIP: 192.168.35.203
+    hostIPs:
+    - ip: 192.168.35.203
+    phase: Running
+    podIP: 192.168.35.203
+    podIPs:
+    - ip: 192.168.35.203
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:10Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      checksum/config: 343bfdc4f6cc519ad04fcf86e8ed75b5adb1dbbf7352093d37c3acbdc05bdd69
+    creationTimestamp: "2025-02-22T14:29:10Z"
+    generateName: fluent-bit-
+    labels:
+      controller-revision-hash: 56cc5b4558
+      k8s-app: fluent-bit
+      kubernetes.io/cluster-service: "true"
+      pod-template-generation: "4"
+      version: v1
+    name: fluent-bit-r8c4z
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: fluent-bit
+      uid: 9b997f4f-0e78-4e6b-9344-89f29f11367f
+    resourceVersion: "113150780"
+    uid: dd8c98fd-035b-48bd-91af-d051e500b2b8
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - ip-192-168-24-235.ec2.internal
+    containers:
+    - env:
+      - name: AWS_REGION
+        value: us-east-1
+      - name: CLUSTER_NAME
+        value: my-cc-cluster
+      - name: READ_FROM_HEAD
+        value: "Off"
+      - name: READ_FROM_TAIL
+        value: "On"
+      - name: HOST_NAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: spec.nodeName
+      - name: HOSTNAME
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: metadata.name
+      - name: CI_VERSION
+        value: k8s/1.3.17
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.32.5
+      imagePullPolicy: Always
+      name: fluent-bit
+      resources:
+        limits:
+          cpu: 500m
+          memory: 250Mi
+        requests:
+          cpu: 50m
+          memory: 25Mi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/fluent-bit/state
+        name: fluentbitstate
+      - mountPath: /var/log
+        name: varlog
+        readOnly: true
+      - mountPath: /var/lib/docker/containers
+        name: varlibdockercontainers
+        readOnly: true
+      - mountPath: /fluent-bit/etc/
+        name: fluent-bit-config
+      - mountPath: /run/log/journal
+        name: runlogjournal
+        readOnly: true
+      - mountPath: /var/log/dmesg
+        name: dmesg
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+        name: agentclienttls
+        readOnly: true
+      - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+        name: agentservertls
+        readOnly: true
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-cpcnh
+        readOnly: true
+    dnsPolicy: ClusterFirstWithHostNet
+    enableServiceLinks: true
+    hostNetwork: true
+    nodeName: ip-192-168-24-235.ec2.internal
+    nodeSelector:
+      kubernetes.io/os: linux
+    preemptionPolicy: PreemptLowerPriority
+    priority: 2000001000
+    priorityClassName: system-node-critical
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: cloudwatch-agent
+    serviceAccountName: cloudwatch-agent
+    terminationGracePeriodSeconds: 10
+    tolerations:
+    - operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/network-unavailable
+      operator: Exists
+    volumes:
+    - hostPath:
+        path: /var/fluent-bit/state
+        type: ""
+      name: fluentbitstate
+    - hostPath:
+        path: /var/log
+        type: ""
+      name: varlog
+    - hostPath:
+        path: /var/lib/docker/containers
+        type: ""
+      name: varlibdockercontainers
+    - configMap:
+        defaultMode: 420
+        name: fluent-bit-config
+      name: fluent-bit-config
+    - hostPath:
+        path: /run/log/journal
+        type: ""
+      name: runlogjournal
+    - hostPath:
+        path: /var/log/dmesg
+        type: ""
+      name: dmesg
+    - name: agentclienttls
+      secret:
+        defaultMode: 420
+        items:
+        - key: tls.crt
+          path: client.crt
+        - key: tls.key
+          path: client.key
+        secretName: amazon-cloudwatch-observability-agent-client-cert
+    - name: agentservertls
+      secret:
+        defaultMode: 420
+        items:
+        - key: ca.crt
+          path: tls-ca.crt
+        secretName: amazon-cloudwatch-observability-agent-server-cert
+    - name: kube-api-access-cpcnh
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:37Z"
+      status: "True"
+      type: PodReadyToStartContainers
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:37Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:37Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2025-02-22T14:29:10Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://cb90291ff492b9b0def5ed849c4c80114fbab7d5257218cd6928b037bc62f2ae
+      image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.32.5
+      imageID: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit@sha256:e2dd497858e734ee91edaab31022fd4a1651713363bdc96b242bfacb931c8b3d
+      lastState: {}
+      name: fluent-bit
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2025-02-22T14:29:36Z"
+    hostIP: 192.168.24.235
+    hostIPs:
+    - ip: 192.168.24.235
+    phase: Running
+    podIP: 192.168.24.235
+    podIPs:
+    - ip: 192.168.24.235
+    qosClass: Burstable
+    startTime: "2025-02-22T14:29:10Z"
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"amazon-cloudwatch-observability","app.kubernetes.io/managed-by":"amazon-cloudwatch-agent-operator","app.kubernetes.io/name":"amazon-cloudwatch-observability","app.kubernetes.io/version":"1.0.0"},"name":"amazon-cloudwatch-observability-webhook-service","namespace":"amazon-cloudwatch"},"spec":{"ports":[{"port":443,"protocol":"TCP","targetPort":9443}],"selector":{"app.kubernetes.io/name":"amazon-cloudwatch-observability","control-plane":"controller-manager"}}}
+    creationTimestamp: "2024-08-05T15:43:11Z"
+    labels:
+      app.kubernetes.io/instance: amazon-cloudwatch-observability
+      app.kubernetes.io/managed-by: EKS
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      app.kubernetes.io/version: 1.0.0
+    name: amazon-cloudwatch-observability-webhook-service
+    namespace: amazon-cloudwatch
+    resourceVersion: "113143767"
+    uid: fd5f9cd9-ab5a-4e59-becd-050ba59de4d2
+  spec:
+    clusterIP: 10.100.159.91
+    clusterIPs:
+    - 10.100.159.91
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
+    selector:
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      control-plane: controller-manager
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent
+      uid: b8283937-6768-45a0-9030-80f3cba7f8fb
+    resourceVersion: "113156211"
+    uid: b2a8684b-e212-43ca-add5-7aadaa657d7c
+  spec:
+    clusterIP: 10.100.42.4
+    clusterIPs:
+    - 10.100.42.4
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: cwa-appsig-grpc
+      port: 4315
+      protocol: TCP
+      targetPort: 4315
+    - name: cwa-appsig-http
+      port: 4316
+      protocol: TCP
+      targetPort: 4316
+    - name: cwa-appsig-xray
+      port: 2000
+      protocol: TCP
+      targetPort: 2000
+    - name: cwa-server
+      port: 4311
+      protocol: TCP
+      targetPort: 4311
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+      service.beta.openshift.io/serving-cert-secret-name: cloudwatch-agent-headless-tls
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+      operator.opentelemetry.io/collector-headless-service: Exists
+    name: cloudwatch-agent-headless
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent
+      uid: b8283937-6768-45a0-9030-80f3cba7f8fb
+    resourceVersion: "113156207"
+    uid: 9f16de3e-20ae-4730-bec9-53c4a75d05a0
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: cwa-appsig-grpc
+      port: 4315
+      protocol: TCP
+      targetPort: 4315
+    - name: cwa-appsig-http
+      port: 4316
+      protocol: TCP
+      targetPort: 4316
+    - name: cwa-appsig-xray
+      port: 2000
+      protocol: TCP
+      targetPort: 2000
+    - name: cwa-server
+      port: 4311
+      protocol: TCP
+      targetPort: 4311
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-monitoring
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-monitoring
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent
+      uid: b8283937-6768-45a0-9030-80f3cba7f8fb
+    resourceVersion: "113143811"
+    uid: 184d87c2-2754-4e9c-a795-75396e1fb918
+  spec:
+    clusterIP: 10.100.29.117
+    clusterIPs:
+    - 10.100.29.117
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: monitoring
+      port: 8888
+      protocol: TCP
+      targetPort: 8888
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent-windows","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"RUN_IN_CONTAINER","value":"True"},{"name":"RUN_AS_HOST_PROCESS_CONTAINER","value":"True"}],"hostNetwork":true,"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"windows"},"podSecurityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent"}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-windows
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows
+      uid: 088a24af-2488-448f-a1ca-f16e6fd7742a
+    resourceVersion: "113144050"
+    uid: de4c7715-3cc4-4f8e-8acf-b0e0e8ab0986
+  spec:
+    clusterIP: 10.100.2.119
+    clusterIPs:
+    - 10.100.2.119
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: cwa-appsig-grpc
+      port: 4315
+      protocol: TCP
+      targetPort: 4315
+    - name: cwa-appsig-http
+      port: 4316
+      protocol: TCP
+      targetPort: 4316
+    - name: cwa-appsig-xray
+      port: 2000
+      protocol: TCP
+      targetPort: 2000
+    - name: cwa-server
+      port: 4311
+      protocol: TCP
+      targetPort: 4311
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2025-02-22T14:15:18Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows-container-insights
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows-container-insights-monitoring
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-windows-container-insights-monitoring
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows-container-insights
+      uid: a1b18728-42f9-4e36-a147-206b021c5c99
+    resourceVersion: "113143837"
+    uid: c9e60156-3893-4a96-9b1e-28f21316db8b
+  spec:
+    clusterIP: 10.100.2.17
+    clusterIPs:
+    - 10.100.2.17
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: monitoring
+      port: 8888
+      protocol: TCP
+      targetPort: 8888
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows-container-insights
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent-windows","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"RUN_IN_CONTAINER","value":"True"},{"name":"RUN_AS_HOST_PROCESS_CONTAINER","value":"True"}],"hostNetwork":true,"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"windows"},"podSecurityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent"}}
+      service.beta.openshift.io/serving-cert-secret-name: cloudwatch-agent-windows-headless-tls
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+      operator.opentelemetry.io/collector-headless-service: Exists
+    name: cloudwatch-agent-windows-headless
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows
+      uid: 088a24af-2488-448f-a1ca-f16e6fd7742a
+    resourceVersion: "113144052"
+    uid: 10586e16-f161-4dfa-a35c-b9f07efe1f8e
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: cwa-appsig-grpc
+      port: 4315
+      protocol: TCP
+      targetPort: 4315
+    - name: cwa-appsig-http
+      port: 4316
+      protocol: TCP
+      targetPort: 4316
+    - name: cwa-appsig-xray
+      port: 2000
+      protocol: TCP
+      targetPort: 2000
+    - name: cwa-server
+      port: 4311
+      protocol: TCP
+      targetPort: 4311
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent-windows","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"RUN_IN_CONTAINER","value":"True"},{"name":"RUN_AS_HOST_PROCESS_CONTAINER","value":"True"}],"hostNetwork":true,"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"windows"},"podSecurityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent"}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows-monitoring
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-windows-monitoring
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows
+      uid: 088a24af-2488-448f-a1ca-f16e6fd7742a
+    resourceVersion: "113143865"
+    uid: 55b810d3-04b1-4ea9-bae0-a342f5af318a
+  spec:
+    clusterIP: 10.100.220.15
+    clusterIPs:
+    - 10.100.220.15
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: monitoring
+      port: 8888
+      protocol: TCP
+      targetPort: 8888
+    selector:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: e2def6fdb5b33e8dbbf4f1d5f963c22592a100ffc968ebfd0523a8973f32f669
+      k8s-app: dcgm-exporter
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"DcgmExporter","metadata":{"annotations":{},"labels":{"k8s-app":"dcgm-exporter","version":"v1"},"name":"dcgm-exporter","namespace":"amazon-cloudwatch"},"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"node.kubernetes.io/instance-type","operator":"In","values":["p2.xlarge","p2.8xlarge","p2.16xlarge","p3.2xlarge","p3.8xlarge","p3.16xlarge","p3dn.24xlarge","p4d.24xlarge","p4de.24xlarge","p5.48xlarge","g3s.xlarge","g3.4xlarge","g3.8xlarge","g3.16xlarge","g4dn.xlarge","g4dn.2xlarge","g4dn.4xlarge","g4dn.8xlarge","g4dn.16xlarge","g4dn.12xlarge","g4dn.metal","g4ad.xlarge","g4ad.2xlarge","g4ad.4xlarge","g4ad.8xlarge","g4ad.16xlarge","g5.xlarge","g5.2xlarge","g5.4xlarge","g5.8xlarge","g5.16xlarge","g5.12xlarge","g5.24xlarge","g5.48xlarge","g5g.xlarge","g5g.2xlarge","g5g.4xlarge","g5g.8xlarge","g5g.16xlarge","g5g.metal"]}]}]}}},"env":[{"name":"DCGM_EXPORTER_KUBERNETES","value":"true"},{"name":"DCGM_EXPORTER_LISTEN","value":":9400"},{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}}],"image":"nvcr.io/nvidia/k8s/dcgm-exporter:3.3.3-3.3.1-ubuntu22.04","metricsConfig":"DCGM_FI_DEV_GPU_UTIL,      gauge, GPU utilization (in %).\nDCGM_FI_DEV_MEM_COPY_UTIL, gauge, Memory utilization (in %).\nDCGM_FI_DEV_FB_FREE, gauge, Framebuffer memory free (in MiB).\nDCGM_FI_DEV_FB_USED, gauge, Framebuffer memory used (in MiB).\nDCGM_FI_DEV_FB_TOTAL, gauge, Framebuffer memory used (in MiB).\nDCGM_FI_DEV_FB_USED_PERCENT, gauge, Percentage used of Frame Buffer: Used/(Total - Reserved).\nDCGM_FI_DEV_MEMORY_TEMP, gauge, Memory temperature (in C).\nDCGM_FI_DEV_GPU_TEMP,    gauge, GPU temperature (in C).\nDCGM_FI_DEV_POWER_USAGE,              gauge, Power draw (in W).\n","nodeSelector":{"kubernetes.io/os":"linux"},"ports":[{"name":"metrics","port":9400}],"resources":{"limits":{"cpu":"500m","memory":"250Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"dcgm-exporter-service-acct","tlsConfig":"tls_server_config:\n  cert_file: /etc/amazon-cloudwatch-observability-dcgm-cert/server.crt\n  key_file: /etc/amazon-cloudwatch-observability-dcgm-cert/server.key\n","volumeMounts":[{"mountPath":"/var/lib/kubelet/pod-resources","name":"pod-gpu-resources","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-dcgm-cert","name":"dcgmtls","readOnly":true}],"volumes":[{"name":"dcgmtls","secret":{"items":[{"key":"tls.crt","path":"server.crt"},{"key":"tls.key","path":"server.key"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}},{"hostPath":{"path":"/var/lib/kubelet/pod-resources"},"name":"pod-gpu-resources"}]}}
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: dcgm-exporter
+      app.kubernetes.io/instance: amazon-cloudwatch.dcgm-exporter
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: dcgm-exporter
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 3.3.9-3.6.1-ubuntu22.04
+      k8s-app: dcgm-exporter-service
+      version: v1
+    name: dcgm-exporter-service
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DcgmExporter
+      name: dcgm-exporter
+      uid: 9eefd81c-2df0-4564-b06c-47051fada782
+    resourceVersion: "113143900"
+    uid: 001af2b5-e4ef-4420-9508-3aa7988bc08d
+  spec:
+    clusterIP: 10.100.242.64
+    clusterIPs:
+    - 10.100.242.64
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: metrics
+      port: 9400
+      protocol: TCP
+      targetPort: 9400
+    selector:
+      app.kubernetes.io/component: dcgm-exporter
+      app.kubernetes.io/instance: amazon-cloudwatch.dcgm-exporter
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: 5f502ff71852e9c3d1daa47b175907ad15e0f7141f1abb87bf2779d7dfbe2240
+      k8s-app: neuron-monitor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"NeuronMonitor","metadata":{"annotations":{},"labels":{"k8s-app":"neuron-monitor","version":"v1"},"name":"neuron-monitor","namespace":"amazon-cloudwatch"},"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/os","operator":"In","values":["linux"]},{"key":"node.kubernetes.io/instance-type","operator":"In","values":["trn1.2xlarge","trn1.32xlarge","trn1n.32xlarge","inf1.xlarge","inf1.2xlarge","inf1.6xlarge","inf1.24xlarge","inf2.xlarge","inf2.8xlarge","inf2.24xlarge","inf2.48xlarge"]}]}]}}},"args":{"cert-file":"/etc/amazon-cloudwatch-observability-neuron-cert/server.crt","key-file":"/etc/amazon-cloudwatch-observability-neuron-cert/server.key","port":"8000"},"command":["/opt/bin/entrypoint.sh"],"env":[{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"PATH","value":"/usr/local/bin:/usr/bin:/bin:/opt/aws/neuron/bin"}],"image":"public.ecr.aws/neuron/neuron-monitor:1.0.0","monitorConfig":"{\n  \"period\": \"5s\",\n  \"neuron_runtimes\": [\n    {\n      \"tag_filter\": \".*\",\n      \"metrics\": [\n        {\n          \"type\": \"neuroncore_counters\"\n        },\n        {\n          \"type\": \"memory_used\"\n        },\n        {\n          \"type\": \"neuron_runtime_vcpu_usage\"\n        },\n        {\n          \"type\": \"execution_stats\"\n        }\n      ]\n    }\n  ],\n  \"system_metrics\": [\n    {\n      \"type\": \"memory_info\"\n    },\n    {\n      \"period\": \"5s\",\n      \"type\": \"neuron_hw_counters\"\n    }\n  ]\n}\n","ports":[{"name":"metrics","port":8000}],"resources":{"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"256m","memory":"128Mi"}},"securityContext":{"privileged":true},"serviceAccount":"neuron-monitor-service-acct","volumeMounts":[{"mountPath":"/etc/amazon-cloudwatch-observability-neuron-cert/","name":"neurontls","readOnly":true}],"volumes":[{"name":"neurontls","secret":{"items":[{"key":"tls.crt","path":"server.crt"},{"key":"tls.key","path":"server.key"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    labels:
+      app.kubernetes.io/component: neuron-monitor
+      app.kubernetes.io/instance: amazon-cloudwatch.neuron-monitor
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: neuron-monitor
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.3.0
+      k8s-app: neuron-monitor-service
+      version: v1
+    name: neuron-monitor-service
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: NeuronMonitor
+      name: neuron-monitor
+      uid: 9fb9d6fb-3099-43de-9f6d-d7c88456137e
+    resourceVersion: "113143921"
+    uid: a5abaf4e-37d9-4136-a5b9-2d102a60d089
+  spec:
+    clusterIP: 10.100.158.125
+    clusterIPs:
+    - 10.100.158.125
+    internalTrafficPolicy: Local
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: metrics
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app.kubernetes.io/component: neuron-monitor
+      app.kubernetes.io/instance: amazon-cloudwatch.neuron-monitor
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: 51e19b15ecbd50c1024c08a985dbc067f9ca16a8ebc182fd51f04683f1bddbff
+      deprecated.daemonset.template.generation: "7"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8888"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    generation: 7
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent
+      uid: b8283937-6768-45a0-9030-80f3cba7f8fb
+    resourceVersion: "113156193"
+    uid: fa40ce21-10fb-4b34-8601-6f6b3b7fc1a2
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: amazon-cloudwatch-agent
+        app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+        app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+        app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    template:
+      metadata:
+        annotations:
+          amazon-cloudwatch-agent-operator-config/sha256: 51e19b15ecbd50c1024c08a985dbc067f9ca16a8ebc182fd51f04683f1bddbff
+          kubectl.kubernetes.io/last-applied-configuration: |
+            {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"agent\":{\"region\":\"us-east-1\"},\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"cluster_name\":\"my-cc--cluster\",\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}}],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"linux"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent","volumeMounts":[{"mountPath":"/rootfs","name":"rootfs","readOnly":true},{"mountPath":"/var/run/docker.sock","name":"dockersock","readOnly":true},{"mountPath":"/run/containerd/containerd.sock","name":"containerdsock"},{"mountPath":"/var/lib/docker","name":"varlibdocker","readOnly":true},{"mountPath":"/sys","name":"sys","readOnly":true},{"mountPath":"/dev/disk","name":"devdisk","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-agent-cert","name":"agenttls","readOnly":true},{"mountPath":"/var/lib/kubelet/pod-resources","name":"kubelet-podresources"}],"volumes":[{"hostPath":{"path":"/var/lib/kubelet/pod-resources","type":"Directory"},"name":"kubelet-podresources"},{"hostPath":{"path":"/"},"name":"rootfs"},{"hostPath":{"path":"/var/run/docker.sock"},"name":"dockersock"},{"hostPath":{"path":"/var/lib/docker"},"name":"varlibdocker"},{"hostPath":{"path":"/run/containerd/containerd.sock"},"name":"containerdsock"},{"hostPath":{"path":"/sys"},"name":"sys"},{"hostPath":{"path":"/dev/disk/"},"name":"devdisk"},{"name":"agenttls","secret":{"items":[{"key":"ca.crt","path":"tls-ca.crt"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8888"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: amazon-cloudwatch-agent
+          app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent
+          app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+          app.kubernetes.io/name: cloudwatch-agent
+          app.kubernetes.io/part-of: amazon-cloudwatch-agent
+          app.kubernetes.io/version: 1.300052.0b1024
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                  - fargate
+        containers:
+        - env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: HOST_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: K8S_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+          imagePullPolicy: IfNotPresent
+          name: otc-container
+          ports:
+          - containerPort: 4315
+            name: cwa-appsig-grpc
+            protocol: TCP
+          - containerPort: 4316
+            name: cwa-appsig-http
+            protocol: TCP
+          - containerPort: 2000
+            name: cwa-appsig-xray
+            protocol: TCP
+          - containerPort: 4311
+            name: cwa-server
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/cwagentconfig
+            name: otc-internal
+          - mountPath: /rootfs
+            name: rootfs
+            readOnly: true
+          - mountPath: /var/run/docker.sock
+            name: dockersock
+            readOnly: true
+          - mountPath: /run/containerd/containerd.sock
+            name: containerdsock
+          - mountPath: /var/lib/docker
+            name: varlibdocker
+            readOnly: true
+          - mountPath: /sys
+            name: sys
+            readOnly: true
+          - mountPath: /dev/disk
+            name: devdisk
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-agent-cert
+            name: agenttls
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+            name: agentclienttls
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+            name: agentservertls
+            readOnly: true
+          - mountPath: /var/lib/kubelet/pod-resources
+            name: kubelet-podresources
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: cloudwatch-agent
+        serviceAccountName: cloudwatch-agent
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: cwagentconfig.json
+              path: cwagentconfig.json
+            name: cloudwatch-agent
+          name: otc-internal
+        - hostPath:
+            path: /var/lib/kubelet/pod-resources
+            type: Directory
+          name: kubelet-podresources
+        - hostPath:
+            path: /
+            type: ""
+          name: rootfs
+        - hostPath:
+            path: /var/run/docker.sock
+            type: ""
+          name: dockersock
+        - hostPath:
+            path: /var/lib/docker
+            type: ""
+          name: varlibdocker
+        - hostPath:
+            path: /run/containerd/containerd.sock
+            type: ""
+          name: containerdsock
+        - hostPath:
+            path: /sys
+            type: ""
+          name: sys
+        - hostPath:
+            path: /dev/disk/
+            type: ""
+          name: devdisk
+        - name: agenttls
+          secret:
+            defaultMode: 420
+            items:
+            - key: ca.crt
+              path: tls-ca.crt
+            secretName: amazon-cloudwatch-observability-agent-cert
+        - name: agentclienttls
+          secret:
+            defaultMode: 420
+            items:
+            - key: ca.crt
+              path: tls-ca.crt
+            secretName: amazon-cloudwatch-observability-agent-client-cert
+        - name: agentservertls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+            secretName: amazon-cloudwatch-observability-agent-server-cert
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberAvailable: 2
+    numberMisscheduled: 0
+    numberReady: 2
+    observedGeneration: 7
+    updatedNumberScheduled: 2
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: e9df7424b0969a5eca3978a722d48e1f069ac6586acdf49b2894b8ac8e1a3e34
+      deprecated.daemonset.template.generation: "9"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent-windows","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"RUN_IN_CONTAINER","value":"True"},{"name":"RUN_AS_HOST_PROCESS_CONTAINER","value":"True"}],"hostNetwork":true,"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"windows"},"podSecurityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent"}}
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8888"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    generation: 9
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-windows
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows
+      uid: 088a24af-2488-448f-a1ca-f16e6fd7742a
+    resourceVersion: "113144062"
+    uid: 23c1213c-5278-4e90-b82c-c62dfb8c2b4d
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: amazon-cloudwatch-agent
+        app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+        app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+        app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    template:
+      metadata:
+        annotations:
+          amazon-cloudwatch-agent-operator-config/sha256: e9df7424b0969a5eca3978a722d48e1f069ac6586acdf49b2894b8ac8e1a3e34
+          kubectl.kubernetes.io/last-applied-configuration: |
+            {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"AmazonCloudWatchAgent","metadata":{"annotations":{},"name":"cloudwatch-agent-windows","namespace":"amazon-cloudwatch"},"spec":{"config":"{\"logs\":{\"metrics_collected\":{\"kubernetes\":{\"enhanced_container_insights\":true}}}}","env":[{"name":"K8S_NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOST_IP","valueFrom":{"fieldRef":{"fieldPath":"status.hostIP"}}},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"K8S_NAMESPACE","valueFrom":{"fieldRef":{"fieldPath":"metadata.namespace"}}},{"name":"RUN_IN_CONTAINER","value":"True"},{"name":"RUN_AS_HOST_PROCESS_CONTAINER","value":"True"}],"hostNetwork":true,"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent:1.300041.0b681","mode":"daemonset","nodeSelector":{"kubernetes.io/os":"windows"},"podSecurityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"cloudwatch-agent"}}
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8888"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: amazon-cloudwatch-agent
+          app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows
+          app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+          app.kubernetes.io/name: cloudwatch-agent-windows
+          app.kubernetes.io/part-of: amazon-cloudwatch-agent
+          app.kubernetes.io/version: 1.300052.0b1024
+      spec:
+        containers:
+        - env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: HOST_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: K8S_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+          imagePullPolicy: IfNotPresent
+          name: otc-container
+          ports:
+          - containerPort: 4315
+            name: cwa-appsig-grpc
+            protocol: TCP
+          - containerPort: 4316
+            name: cwa-appsig-http
+            protocol: TCP
+          - containerPort: 2000
+            name: cwa-appsig-xray
+            protocol: TCP
+          - containerPort: 4311
+            name: cwa-server
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: C:\Program Files\Amazon\AmazonCloudWatchAgent\cwagentconfig
+            name: otc-internal
+        dnsPolicy: ClusterFirst
+        hostNetwork: true
+        nodeSelector:
+          kubernetes.io/os: windows
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          windowsOptions:
+            hostProcess: true
+            runAsUserName: NT AUTHORITY\System
+        serviceAccount: cloudwatch-agent
+        serviceAccountName: cloudwatch-agent
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: cwagentconfig.json
+              path: cwagentconfig.json
+            name: cloudwatch-agent-windows
+          name: otc-internal
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 0
+    desiredNumberScheduled: 0
+    numberMisscheduled: 0
+    numberReady: 0
+    observedGeneration: 9
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: efa0eaebf0110994b5d2bb8da6e27558f6aafb20a81dfe8866f03902b9d1f135
+      deprecated.daemonset.template.generation: "4"
+      prometheus.io/path: /metrics
+      prometheus.io/port: "8888"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2025-02-22T14:15:18Z"
+    generation: 4
+    labels:
+      app.kubernetes.io/component: amazon-cloudwatch-agent
+      app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows-container-insights
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: cloudwatch-agent-windows-container-insights
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.300052.0b1024
+    name: cloudwatch-agent-windows-container-insights
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: AmazonCloudWatchAgent
+      name: cloudwatch-agent-windows-container-insights
+      uid: a1b18728-42f9-4e36-a147-206b021c5c99
+    resourceVersion: "113144102"
+    uid: ece86bc2-e468-4634-aac6-aee8aaba19df
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: amazon-cloudwatch-agent
+        app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows-container-insights
+        app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+        app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    template:
+      metadata:
+        annotations:
+          amazon-cloudwatch-agent-operator-config/sha256: efa0eaebf0110994b5d2bb8da6e27558f6aafb20a81dfe8866f03902b9d1f135
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8888"
+          prometheus.io/scrape: "true"
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: amazon-cloudwatch-agent
+          app.kubernetes.io/instance: amazon-cloudwatch.cloudwatch-agent-windows-container-insights
+          app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+          app.kubernetes.io/name: cloudwatch-agent-windows-container-insights
+          app.kubernetes.io/part-of: amazon-cloudwatch-agent
+          app.kubernetes.io/version: 1.300052.0b1024
+      spec:
+        containers:
+        - env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: status.hostIP
+          - name: HOST_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: K8S_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: RUN_IN_CONTAINER
+            value: "True"
+          - name: RUN_AS_HOST_PROCESS_CONTAINER
+            value: "True"
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent:1.300052.0b1024
+          imagePullPolicy: IfNotPresent
+          name: otc-container
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: C:\Program Files\Amazon\AmazonCloudWatchAgent\cwagentconfig
+            name: otc-internal
+          workingDir: '%CONTAINER_SANDBOX_MOUNT_POINT%\Program Files\Amazon\AmazonCloudWatchAgent'
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        nodeSelector:
+          kubernetes.io/os: windows
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          windowsOptions:
+            hostProcess: true
+            runAsUserName: NT AUTHORITY\System
+        serviceAccount: cloudwatch-agent
+        serviceAccountName: cloudwatch-agent
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: cwagentconfig.json
+              path: cwagentconfig.json
+            name: cloudwatch-agent-windows-container-insights
+          name: otc-internal
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 0
+    desiredNumberScheduled: 0
+    numberMisscheduled: 0
+    numberReady: 0
+    observedGeneration: 4
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: e2def6fdb5b33e8dbbf4f1d5f963c22592a100ffc968ebfd0523a8973f32f669
+      deprecated.daemonset.template.generation: "3"
+      k8s-app: dcgm-exporter
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"DcgmExporter","metadata":{"annotations":{},"labels":{"k8s-app":"dcgm-exporter","version":"v1"},"name":"dcgm-exporter","namespace":"amazon-cloudwatch"},"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"node.kubernetes.io/instance-type","operator":"In","values":["p2.xlarge","p2.8xlarge","p2.16xlarge","p3.2xlarge","p3.8xlarge","p3.16xlarge","p3dn.24xlarge","p4d.24xlarge","p4de.24xlarge","p5.48xlarge","g3s.xlarge","g3.4xlarge","g3.8xlarge","g3.16xlarge","g4dn.xlarge","g4dn.2xlarge","g4dn.4xlarge","g4dn.8xlarge","g4dn.16xlarge","g4dn.12xlarge","g4dn.metal","g4ad.xlarge","g4ad.2xlarge","g4ad.4xlarge","g4ad.8xlarge","g4ad.16xlarge","g5.xlarge","g5.2xlarge","g5.4xlarge","g5.8xlarge","g5.16xlarge","g5.12xlarge","g5.24xlarge","g5.48xlarge","g5g.xlarge","g5g.2xlarge","g5g.4xlarge","g5g.8xlarge","g5g.16xlarge","g5g.metal"]}]}]}}},"env":[{"name":"DCGM_EXPORTER_KUBERNETES","value":"true"},{"name":"DCGM_EXPORTER_LISTEN","value":":9400"},{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}}],"image":"nvcr.io/nvidia/k8s/dcgm-exporter:3.3.3-3.3.1-ubuntu22.04","metricsConfig":"DCGM_FI_DEV_GPU_UTIL,      gauge, GPU utilization (in %).\nDCGM_FI_DEV_MEM_COPY_UTIL, gauge, Memory utilization (in %).\nDCGM_FI_DEV_FB_FREE, gauge, Framebuffer memory free (in MiB).\nDCGM_FI_DEV_FB_USED, gauge, Framebuffer memory used (in MiB).\nDCGM_FI_DEV_FB_TOTAL, gauge, Framebuffer memory used (in MiB).\nDCGM_FI_DEV_FB_USED_PERCENT, gauge, Percentage used of Frame Buffer: Used/(Total - Reserved).\nDCGM_FI_DEV_MEMORY_TEMP, gauge, Memory temperature (in C).\nDCGM_FI_DEV_GPU_TEMP,    gauge, GPU temperature (in C).\nDCGM_FI_DEV_POWER_USAGE,              gauge, Power draw (in W).\n","nodeSelector":{"kubernetes.io/os":"linux"},"ports":[{"name":"metrics","port":9400}],"resources":{"limits":{"cpu":"500m","memory":"250Mi"},"requests":{"cpu":"250m","memory":"128Mi"}},"serviceAccount":"dcgm-exporter-service-acct","tlsConfig":"tls_server_config:\n  cert_file: /etc/amazon-cloudwatch-observability-dcgm-cert/server.crt\n  key_file: /etc/amazon-cloudwatch-observability-dcgm-cert/server.key\n","volumeMounts":[{"mountPath":"/var/lib/kubelet/pod-resources","name":"pod-gpu-resources","readOnly":true},{"mountPath":"/etc/amazon-cloudwatch-observability-dcgm-cert","name":"dcgmtls","readOnly":true}],"volumes":[{"name":"dcgmtls","secret":{"items":[{"key":"tls.crt","path":"server.crt"},{"key":"tls.key","path":"server.key"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}},{"hostPath":{"path":"/var/lib/kubelet/pod-resources"},"name":"pod-gpu-resources"}]}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/component: dcgm-exporter
+      app.kubernetes.io/instance: amazon-cloudwatch.dcgm-exporter
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: dcgm-exporter
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 3.3.9-3.6.1-ubuntu22.04
+      k8s-app: dcgm-exporter
+      version: v1
+    name: dcgm-exporter
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DcgmExporter
+      name: dcgm-exporter
+      uid: 9eefd81c-2df0-4564-b06c-47051fada782
+    resourceVersion: "113143899"
+    uid: 2421eca1-4c83-4bce-95a2-a844f65bc403
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: dcgm-exporter
+        app.kubernetes.io/instance: amazon-cloudwatch.dcgm-exporter
+        app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+        app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: dcgm-exporter
+          app.kubernetes.io/instance: amazon-cloudwatch.dcgm-exporter
+          app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+          app.kubernetes.io/name: dcgm-exporter
+          app.kubernetes.io/part-of: amazon-cloudwatch-agent
+          app.kubernetes.io/version: 3.3.9-3.6.1-ubuntu22.04
+          k8s-app: dcgm-exporter
+          version: v1
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: node.kubernetes.io/instance-type
+                  operator: In
+                  values:
+                  - g3.4xlarge
+                  - g3.8xlarge
+                  - g3.16xlarge
+                  - g3s.xlarge
+                  - g4ad.2xlarge
+                  - g4ad.4xlarge
+                  - g4ad.8xlarge
+                  - g4ad.16xlarge
+                  - g4ad.xlarge
+                  - g4dn.2xlarge
+                  - g4dn.4xlarge
+                  - g4dn.8xlarge
+                  - g4dn.12xlarge
+                  - g4dn.16xlarge
+                  - g4dn.metal
+                  - g4dn.xlarge
+                  - g5.2xlarge
+                  - g5.4xlarge
+                  - g5.8xlarge
+                  - g5.12xlarge
+                  - g5.16xlarge
+                  - g5.24xlarge
+                  - g5.48xlarge
+                  - g5.xlarge
+                  - g5g.2xlarge
+                  - g5g.4xlarge
+                  - g5g.8xlarge
+                  - g5g.16xlarge
+                  - g5g.metal
+                  - g5g.xlarge
+                  - g6.2xlarge
+                  - g6.4xlarge
+                  - g6.8xlarge
+                  - g6.12xlarge
+                  - g6.16xlarge
+                  - g6.24xlarge
+                  - g6.48xlarge
+                  - g6.xlarge
+                  - g6e.2xlarge
+                  - g6e.4xlarge
+                  - g6e.8xlarge
+                  - g6e.12xlarge
+                  - g6e.16xlarge
+                  - g6e.24xlarge
+                  - g6e.48xlarge
+                  - g6e.xlarge
+                  - gr6.4xlarge
+                  - gr6.8xlarge
+                  - p2.8xlarge
+                  - p2.16xlarge
+                  - p2.xlarge
+                  - p3.2xlarge
+                  - p3.8xlarge
+                  - p3.16xlarge
+                  - p3dn.24xlarge
+                  - p4d.24xlarge
+                  - p4de.24xlarge
+                  - p5.48xlarge
+                  - p5e.48xlarge
+                  - p5en.48xlarge
+                  - ml.g3.4xlarge
+                  - ml.g3.8xlarge
+                  - ml.g3.16xlarge
+                  - ml.g3s.xlarge
+                  - ml.g4ad.2xlarge
+                  - ml.g4ad.4xlarge
+                  - ml.g4ad.8xlarge
+                  - ml.g4ad.16xlarge
+                  - ml.g4ad.xlarge
+                  - ml.g4dn.2xlarge
+                  - ml.g4dn.4xlarge
+                  - ml.g4dn.8xlarge
+                  - ml.g4dn.12xlarge
+                  - ml.g4dn.16xlarge
+                  - ml.g4dn.metal
+                  - ml.g4dn.xlarge
+                  - ml.g5.2xlarge
+                  - ml.g5.4xlarge
+                  - ml.g5.8xlarge
+                  - ml.g5.12xlarge
+                  - ml.g5.16xlarge
+                  - ml.g5.24xlarge
+                  - ml.g5.48xlarge
+                  - ml.g5.xlarge
+                  - ml.g5g.2xlarge
+                  - ml.g5g.4xlarge
+                  - ml.g5g.8xlarge
+                  - ml.g5g.16xlarge
+                  - ml.g5g.metal
+                  - ml.g5g.xlarge
+                  - ml.g6.2xlarge
+                  - ml.g6.4xlarge
+                  - ml.g6.8xlarge
+                  - ml.g6.12xlarge
+                  - ml.g6.16xlarge
+                  - ml.g6.24xlarge
+                  - ml.g6.48xlarge
+                  - ml.g6.xlarge
+                  - ml.g6e.2xlarge
+                  - ml.g6e.4xlarge
+                  - ml.g6e.8xlarge
+                  - ml.g6e.12xlarge
+                  - ml.g6e.16xlarge
+                  - ml.g6e.24xlarge
+                  - ml.g6e.48xlarge
+                  - ml.g6e.xlarge
+                  - ml.gr6.4xlarge
+                  - ml.gr6.8xlarge
+                  - ml.p2.8xlarge
+                  - ml.p2.16xlarge
+                  - ml.p2.xlarge
+                  - ml.p3.2xlarge
+                  - ml.p3.8xlarge
+                  - ml.p3.16xlarge
+                  - ml.p3dn.24xlarge
+                  - ml.p4d.24xlarge
+                  - ml.p4de.24xlarge
+                  - ml.p5.48xlarge
+                  - ml.p5e.48xlarge
+                  - ml.p5en.48xlarge
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                  - fargate
+        containers:
+        - args:
+          - --web-config-file=/etc/dcgm-exporter/web-config.yaml
+          env:
+          - name: DCGM_EXPORTER_KUBERNETES
+            value: "true"
+          - name: DCGM_EXPORTER_LISTEN
+            value: :9400
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: DCGM_EXPORTER_COLLECTORS
+            value: /etc/dcgm-exporter/dcp-metrics-included.csv
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/dcgm-exporter:3.3.9-3.6.1-ubuntu22.04
+          imagePullPolicy: IfNotPresent
+          name: dcgm-exporter
+          ports:
+          - containerPort: 9400
+            name: metrics
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/dcgm-exporter
+            name: dcgm-config
+          - mountPath: /var/lib/kubelet/pod-resources
+            name: pod-gpu-resources
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-dcgm-cert
+            name: dcgmtls
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: dcgm-exporter-service-acct
+        serviceAccountName: dcgm-exporter-service-acct
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - operator: Exists
+        volumes:
+        - name: dcgmtls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+            secretName: amazon-cloudwatch-observability-agent-cert
+        - hostPath:
+            path: /var/lib/kubelet/pod-resources
+            type: ""
+          name: pod-gpu-resources
+        - configMap:
+            defaultMode: 420
+            name: dcgm-exporter-config-map
+          name: dcgm-config
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 0
+    desiredNumberScheduled: 0
+    numberMisscheduled: 0
+    numberReady: 0
+    observedGeneration: 3
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "4"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"k8s-app":"fluent-bit","kubernetes.io/cluster-service":"true","version":"v1"},"name":"fluent-bit","namespace":"amazon-cloudwatch"},"spec":{"selector":{"matchLabels":{"k8s-app":"fluent-bit"}},"template":{"metadata":{"annotations":{"checksum/config":"1356b1d704d353a90c127f6dad453991f51d88ae994a7583c1064e0c883d898e"},"labels":{"k8s-app":"fluent-bit","kubernetes.io/cluster-service":"true","version":"v1"}},"spec":{"containers":[{"env":[{"name":"AWS_REGION","value":"us-east-1"},{"name":"CLUSTER_NAME","value":"my-cc--cluster"},{"name":"READ_FROM_HEAD","value":"Off"},{"name":"READ_FROM_TAIL","value":"On"},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOSTNAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.name"}}},{"name":"CI_VERSION","value":"k8s/1.3.25"}],"image":"public.ecr.aws/aws-observability/aws-for-fluent-bit:2.32.0.20240304","imagePullPolicy":"Always","name":"fluent-bit","resources":{"limits":{"cpu":"500m","memory":"250Mi"},"requests":{"cpu":"50m","memory":"25Mi"}},"volumeMounts":[{"mountPath":"/var/fluent-bit/state","name":"fluentbitstate"},{"mountPath":"/var/log","name":"varlog","readOnly":true},{"mountPath":"/var/lib/docker/containers","name":"varlibdockercontainers","readOnly":true},{"mountPath":"/fluent-bit/etc/","name":"fluent-bit-config"},{"mountPath":"/run/log/journal","name":"runlogjournal","readOnly":true},{"mountPath":"/var/log/dmesg","name":"dmesg","readOnly":true}]}],"dnsPolicy":"ClusterFirstWithHostNet","hostNetwork":true,"nodeSelector":{"kubernetes.io/os":"linux"},"serviceAccountName":"cloudwatch-agent","terminationGracePeriodSeconds":10,"volumes":[{"hostPath":{"path":"/var/fluent-bit/state"},"name":"fluentbitstate"},{"hostPath":{"path":"/var/log"},"name":"varlog"},{"hostPath":{"path":"/var/lib/docker/containers"},"name":"varlibdockercontainers"},{"configMap":{"name":"fluent-bit-config"},"name":"fluent-bit-config"},{"hostPath":{"path":"/run/log/journal"},"name":"runlogjournal"},{"hostPath":{"path":"/var/log/dmesg"},"name":"dmesg"}]}}}}
+    creationTimestamp: "2024-08-05T15:43:11Z"
+    generation: 4
+    labels:
+      k8s-app: fluent-bit
+      kubernetes.io/cluster-service: "true"
+      version: v1
+    name: fluent-bit
+    namespace: amazon-cloudwatch
+    resourceVersion: "113156231"
+    uid: 9b997f4f-0e78-4e6b-9344-89f29f11367f
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: fluent-bit
+    template:
+      metadata:
+        annotations:
+          checksum/config: 343bfdc4f6cc519ad04fcf86e8ed75b5adb1dbbf7352093d37c3acbdc05bdd69
+        creationTimestamp: null
+        labels:
+          k8s-app: fluent-bit
+          kubernetes.io/cluster-service: "true"
+          version: v1
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                  - fargate
+        containers:
+        - env:
+          - name: AWS_REGION
+            value: us-east-1
+          - name: CLUSTER_NAME
+            value: my-cc-cluster
+          - name: READ_FROM_HEAD
+            value: "Off"
+          - name: READ_FROM_TAIL
+            value: "On"
+          - name: HOST_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: CI_VERSION
+            value: k8s/1.3.17
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.32.5
+          imagePullPolicy: Always
+          name: fluent-bit
+          resources:
+            limits:
+              cpu: 500m
+              memory: 250Mi
+            requests:
+              cpu: 50m
+              memory: 25Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/fluent-bit/state
+            name: fluentbitstate
+          - mountPath: /var/log
+            name: varlog
+            readOnly: true
+          - mountPath: /var/lib/docker/containers
+            name: varlibdockercontainers
+            readOnly: true
+          - mountPath: /fluent-bit/etc/
+            name: fluent-bit-config
+          - mountPath: /run/log/journal
+            name: runlogjournal
+            readOnly: true
+          - mountPath: /var/log/dmesg
+            name: dmesg
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-agent-client-cert
+            name: agentclienttls
+            readOnly: true
+          - mountPath: /etc/amazon-cloudwatch-observability-agent-server-cert
+            name: agentservertls
+            readOnly: true
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        nodeSelector:
+          kubernetes.io/os: linux
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: cloudwatch-agent
+        serviceAccountName: cloudwatch-agent
+        terminationGracePeriodSeconds: 10
+        tolerations:
+        - operator: Exists
+        volumes:
+        - hostPath:
+            path: /var/fluent-bit/state
+            type: ""
+          name: fluentbitstate
+        - hostPath:
+            path: /var/log
+            type: ""
+          name: varlog
+        - hostPath:
+            path: /var/lib/docker/containers
+            type: ""
+          name: varlibdockercontainers
+        - configMap:
+            defaultMode: 420
+            name: fluent-bit-config
+          name: fluent-bit-config
+        - hostPath:
+            path: /run/log/journal
+            type: ""
+          name: runlogjournal
+        - hostPath:
+            path: /var/log/dmesg
+            type: ""
+          name: dmesg
+        - name: agentclienttls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: client.crt
+            - key: tls.key
+              path: client.key
+            secretName: amazon-cloudwatch-observability-agent-client-cert
+        - name: agentservertls
+          secret:
+            defaultMode: 420
+            items:
+            - key: ca.crt
+              path: tls-ca.crt
+            secretName: amazon-cloudwatch-observability-agent-server-cert
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 2
+    desiredNumberScheduled: 2
+    numberAvailable: 2
+    numberMisscheduled: 0
+    numberReady: 2
+    observedGeneration: 4
+    updatedNumberScheduled: 2
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      deprecated.daemonset.template.generation: "4"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"DaemonSet","metadata":{"annotations":{},"labels":{"k8s-app":"fluent-bit","kubernetes.io/cluster-service":"true","version":"v1"},"name":"fluent-bit-windows","namespace":"amazon-cloudwatch"},"spec":{"selector":{"matchLabels":{"k8s-app":"fluent-bit"}},"template":{"metadata":{"annotations":{"checksum/config":"a54dc0c777b3caf8ea8c5e895f9e6054af9b06c72bed9d012c4414165bc85a41"},"labels":{"k8s-app":"fluent-bit","kubernetes.io/cluster-service":"true","version":"v1"}},"spec":{"containers":[{"command":["powershell.exe","-Command","New-Item -ItemType Directory -Path C:\\var\\fluent-bit\\state -Force;","%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/bin/fluent-bit.exe","-e","%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/kinesis.dll","-e","%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/firehose.dll","-e","%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/cloudwatch.dll","-c","%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/configuration/fluent-bit.conf"],"env":[{"name":"AWS_REGION","value":"us-east-1"},{"name":"CLUSTER_NAME","value":"my-cc--cluster"},{"name":"READ_FROM_HEAD","value":"Off"},{"name":"HOST_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"HOSTNAME","valueFrom":{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.name"}}},{"name":"CI_VERSION","value":"k8s/1.3.25"}],"image":"public.ecr.aws/aws-observability/aws-for-fluent-bit:2.31.12-windowsservercore","imagePullPolicy":"Always","name":"fluent-bit","resources":{"limits":{"cpu":"500m","memory":"600Mi"},"requests":{"cpu":"300m","memory":"300Mi"}},"volumeMounts":[{"mountPath":"fluent-bit\\configuration\\","name":"fluent-bit-config"}]}],"dnsPolicy":"ClusterFirstWithHostNet","hostNetwork":true,"nodeSelector":{"kubernetes.io/os":"windows"},"securityContext":{"windowsOptions":{"hostProcess":true,"runAsUserName":"NT AUTHORITY\\System"}},"serviceAccountName":"cloudwatch-agent","terminationGracePeriodSeconds":10,"volumes":[{"configMap":{"name":"fluent-bit-windows-config"},"name":"fluent-bit-config"}]}}}}
+    creationTimestamp: "2024-08-05T15:43:11Z"
+    generation: 4
+    labels:
+      k8s-app: fluent-bit
+      kubernetes.io/cluster-service: "true"
+      version: v1
+    name: fluent-bit-windows
+    namespace: amazon-cloudwatch
+    resourceVersion: "113143781"
+    uid: 93a58e26-ce2a-48b3-a069-3b0412c678f3
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        k8s-app: fluent-bit
+    template:
+      metadata:
+        annotations:
+          checksum/config: f878199d937d18566c364ffd6119fe4f9dd500a1b63080c1469fa0a3cf14ebe4
+        creationTimestamp: null
+        labels:
+          k8s-app: fluent-bit
+          kubernetes.io/cluster-service: "true"
+          version: v1
+      spec:
+        containers:
+        - command:
+          - powershell.exe
+          - -Command
+          - New-Item -ItemType Directory -Path C:\var\fluent-bit\state -Force;
+          - '%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/bin/fluent-bit.exe'
+          - -e
+          - '%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/kinesis.dll'
+          - -e
+          - '%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/firehose.dll'
+          - -e
+          - '%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/cloudwatch.dll'
+          - -c
+          - '%CONTAINER_SANDBOX_MOUNT_POINT%/fluent-bit/configuration/fluent-bit.conf'
+          env:
+          - name: AWS_REGION
+            value: us-east-1
+          - name: CLUSTER_NAME
+            value: my-cc-cluster
+          - name: READ_FROM_HEAD
+            value: "Off"
+          - name: HOST_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: HOSTNAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: CI_VERSION
+            value: k8s/1.3.17
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/aws-for-fluent-bit:2.31.12-windowsservercore
+          imagePullPolicy: Always
+          name: fluent-bit
+          resources:
+            limits:
+              cpu: 500m
+              memory: 250Mi
+            requests:
+              cpu: 50m
+              memory: 25Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: fluent-bit\configuration\
+            name: fluent-bit-config
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        nodeSelector:
+          kubernetes.io/os: windows
+        priorityClassName: system-node-critical
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          windowsOptions:
+            hostProcess: true
+            runAsUserName: NT AUTHORITY\System
+        serviceAccount: cloudwatch-agent
+        serviceAccountName: cloudwatch-agent
+        terminationGracePeriodSeconds: 10
+        tolerations:
+        - operator: Exists
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: fluent-bit-windows-config
+          name: fluent-bit-config
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 0
+    desiredNumberScheduled: 0
+    numberMisscheduled: 0
+    numberReady: 0
+    observedGeneration: 4
+- apiVersion: apps/v1
+  kind: DaemonSet
+  metadata:
+    annotations:
+      amazon-cloudwatch-agent-operator-config/sha256: 5f502ff71852e9c3d1daa47b175907ad15e0f7141f1abb87bf2779d7dfbe2240
+      deprecated.daemonset.template.generation: "63290"
+      k8s-app: neuron-monitor
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cloudwatch.aws.amazon.com/v1alpha1","kind":"NeuronMonitor","metadata":{"annotations":{},"labels":{"k8s-app":"neuron-monitor","version":"v1"},"name":"neuron-monitor","namespace":"amazon-cloudwatch"},"spec":{"affinity":{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/os","operator":"In","values":["linux"]},{"key":"node.kubernetes.io/instance-type","operator":"In","values":["trn1.2xlarge","trn1.32xlarge","trn1n.32xlarge","inf1.xlarge","inf1.2xlarge","inf1.6xlarge","inf1.24xlarge","inf2.xlarge","inf2.8xlarge","inf2.24xlarge","inf2.48xlarge"]}]}]}}},"args":{"cert-file":"/etc/amazon-cloudwatch-observability-neuron-cert/server.crt","key-file":"/etc/amazon-cloudwatch-observability-neuron-cert/server.key","port":"8000"},"command":["/opt/bin/entrypoint.sh"],"env":[{"name":"NODE_NAME","valueFrom":{"fieldRef":{"fieldPath":"spec.nodeName"}}},{"name":"PATH","value":"/usr/local/bin:/usr/bin:/bin:/opt/aws/neuron/bin"}],"image":"public.ecr.aws/neuron/neuron-monitor:1.0.0","monitorConfig":"{\n  \"period\": \"5s\",\n  \"neuron_runtimes\": [\n    {\n      \"tag_filter\": \".*\",\n      \"metrics\": [\n        {\n          \"type\": \"neuroncore_counters\"\n        },\n        {\n          \"type\": \"memory_used\"\n        },\n        {\n          \"type\": \"neuron_runtime_vcpu_usage\"\n        },\n        {\n          \"type\": \"execution_stats\"\n        }\n      ]\n    }\n  ],\n  \"system_metrics\": [\n    {\n      \"type\": \"memory_info\"\n    },\n    {\n      \"period\": \"5s\",\n      \"type\": \"neuron_hw_counters\"\n    }\n  ]\n}\n","ports":[{"name":"metrics","port":8000}],"resources":{"limits":{"cpu":"500m","memory":"256Mi"},"requests":{"cpu":"256m","memory":"128Mi"}},"securityContext":{"privileged":true},"serviceAccount":"neuron-monitor-service-acct","volumeMounts":[{"mountPath":"/etc/amazon-cloudwatch-observability-neuron-cert/","name":"neurontls","readOnly":true}],"volumes":[{"name":"neurontls","secret":{"items":[{"key":"tls.crt","path":"server.crt"},{"key":"tls.key","path":"server.key"}],"secretName":"amazon-cloudwatch-observability-agent-cert"}}]}}
+    creationTimestamp: "2024-08-05T15:43:13Z"
+    generation: 63290
+    labels:
+      app.kubernetes.io/component: neuron-monitor
+      app.kubernetes.io/instance: amazon-cloudwatch.neuron-monitor
+      app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+      app.kubernetes.io/name: neuron-monitor
+      app.kubernetes.io/part-of: amazon-cloudwatch-agent
+      app.kubernetes.io/version: 1.3.0
+      k8s-app: neuron-monitor
+      version: v1
+    name: neuron-monitor
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: cloudwatch.aws.amazon.com/v1alpha1
+      blockOwnerDeletion: true
+      controller: true
+      kind: NeuronMonitor
+      name: neuron-monitor
+      uid: 9fb9d6fb-3099-43de-9f6d-d7c88456137e
+    resourceVersion: "113144095"
+    uid: 0a518d60-dbae-44bb-ad14-f50a40c10713
+  spec:
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: neuron-monitor
+        app.kubernetes.io/instance: amazon-cloudwatch.neuron-monitor
+        app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+        app.kubernetes.io/part-of: amazon-cloudwatch-agent
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: neuron-monitor
+          app.kubernetes.io/instance: amazon-cloudwatch.neuron-monitor
+          app.kubernetes.io/managed-by: amazon-cloudwatch-agent-operator
+          app.kubernetes.io/name: neuron-monitor
+          app.kubernetes.io/part-of: amazon-cloudwatch-agent
+          app.kubernetes.io/version: 1.3.0
+          k8s-app: neuron-monitor
+          version: v1
+      spec:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/os
+                  operator: In
+                  values:
+                  - linux
+                - key: node.kubernetes.io/instance-type
+                  operator: In
+                  values:
+                  - trn1.2xlarge
+                  - trn1.32xlarge
+                  - trn1n.32xlarge
+                  - trn2.3xlarge
+                  - trn2.48xlarge
+                  - trn2a.48xlarge
+                  - trn2n.48xlarge
+                  - trn2u.48xlarg
+                  - inf1.xlarge
+                  - inf1.2xlarge
+                  - inf1.6xlarge
+                  - inf1.24xlarge
+                  - inf2.xlarge
+                  - inf2.8xlarge
+                  - inf2.24xlarge
+                  - inf2.48xlarge
+                  - ml.trn1.2xlarge
+                  - ml.trn1.32xlarge
+                  - ml.trn1n.32xlarge
+                  - ml.inf1.xlarge
+                  - ml.inf1.2xlarge
+                  - ml.inf1.6xlarge
+                  - ml.inf1.24xlarge
+                  - ml.inf2.xlarge
+                  - ml.inf2.8xlarge
+                  - ml.inf2.24xlarge
+                  - ml.inf2.48xlarge
+                - key: eks.amazonaws.com/compute-type
+                  operator: NotIn
+                  values:
+                  - fargate
+        containers:
+        - args:
+          - --cert-file
+          - /etc/amazon-cloudwatch-observability-neuron-cert/server.crt
+          - --key-file
+          - /etc/amazon-cloudwatch-observability-neuron-cert/server.key
+          - --port
+          - "8000"
+          - --neuron-monitor-config
+          - /etc/neuron-monitor-config/monitor.json
+          command:
+          - /opt/bin/entrypoint.sh
+          env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: spec.nodeName
+          - name: PATH
+            value: /usr/local/bin:/usr/bin:/bin:/opt/aws/neuron/bin
+          - name: GOMEMLIMIT
+            value: 320MiB
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/prod-neuron-monitor:1.3.0
+          imagePullPolicy: IfNotPresent
+          name: neuron-monitor
+          ports:
+          - containerPort: 8000
+            name: metrics
+            protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+            requests:
+              cpu: 256m
+              memory: 128Mi
+          securityContext:
+            privileged: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/neuron-monitor-config
+            name: neuron-monitor-config
+          - mountPath: /etc/amazon-cloudwatch-observability-neuron-cert/
+            name: neurontls
+            readOnly: true
+          - mountPath: /opt-aws
+            name: aws-config
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: neuron-monitor-service-acct
+        serviceAccountName: neuron-monitor-service-acct
+        terminationGracePeriodSeconds: 30
+        tolerations:
+        - operator: Exists
+        volumes:
+        - name: neurontls
+          secret:
+            defaultMode: 420
+            items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.key
+              path: server.key
+            secretName: amazon-cloudwatch-observability-agent-cert
+        - hostPath:
+            path: /opt/aws
+            type: ""
+          name: aws-config
+        - configMap:
+            defaultMode: 420
+            name: neuron-monitor-config-map
+          name: neuron-monitor-config
+    updateStrategy:
+      rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+      type: RollingUpdate
+  status:
+    currentNumberScheduled: 0
+    desiredNumberScheduled: 0
+    numberMisscheduled: 0
+    numberReady: 0
+    observedGeneration: 63290
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "3"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app.kubernetes.io/instance":"amazon-cloudwatch-observability","app.kubernetes.io/managed-by":"amazon-cloudwatch-agent-operator","app.kubernetes.io/name":"amazon-cloudwatch-observability","app.kubernetes.io/version":"1.0.0","control-plane":"controller-manager"},"name":"amazon-cloudwatch-observability-controller-manager","namespace":"amazon-cloudwatch"},"spec":{"replicas":1,"selector":{"matchLabels":{"app.kubernetes.io/name":"amazon-cloudwatch-observability","control-plane":"controller-manager"}},"template":{"metadata":{"annotations":null,"labels":{"app.kubernetes.io/name":"amazon-cloudwatch-observability","control-plane":"controller-manager"}},"spec":{"containers":[{"args":["--auto-annotation-config={\"java\":{\"daemonsets\":[],\"deployments\":[],\"namespaces\":[],\"statefulsets\":[]},\"python\":{\"daemonsets\":[],\"deployments\":[],\"namespaces\":[],\"statefulsets\":[]}}","--auto-instrumentation-java-image=public.ecr.aws/aws-observability/adot-autoinstrumentation-java:v1.32.1","--auto-instrumentation-python-image=public.ecr.aws/aws-observability/adot-autoinstrumentation-python:v0.1.0","--feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation"],"command":["/manager"],"image":"public.ecr.aws/cloudwatch-agent/cloudwatch-agent-operator:1.3.0","name":"manager","ports":[{"containerPort":9443,"name":"webhook-server","protocol":"TCP"}],"resources":{"requests":{"cpu":"100m","memory":"64Mi"}},"volumeMounts":[{"mountPath":"/tmp/k8s-webhook-server/serving-certs","name":"cert","readOnly":true}]}],"nodeSelector":{"kubernetes.io/os":"linux"},"serviceAccountName":"amazon-cloudwatch-observability-controller-manager","terminationGracePeriodSeconds":10,"volumes":[{"name":"cert","secret":{"defaultMode":420,"secretName":"amazon-cloudwatch-observability-controller-manager-service-cert"}}]}}}}
+    creationTimestamp: "2024-08-05T15:43:12Z"
+    generation: 3
+    labels:
+      app.kubernetes.io/instance: amazon-cloudwatch-observability
+      app.kubernetes.io/managed-by: EKS
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      app.kubernetes.io/version: 1.0.0
+      control-plane: controller-manager
+    name: amazon-cloudwatch-observability-controller-manager
+    namespace: amazon-cloudwatch
+    resourceVersion: "113154328"
+    uid: bd15b9bd-13d8-4486-a9d9-cd98a5978f86
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: amazon-cloudwatch-observability
+        control-plane: controller-manager
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: amazon-cloudwatch-observability
+          control-plane: controller-manager
+      spec:
+        containers:
+        - args:
+          - --auto-instrumentation-config={"dotnet":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"},"runtime_metrics":{"enabled":"true"}},"java":{"limits":{"cpu":"500m","memory":"64Mi"},"requests":{"cpu":"50m","memory":"64Mi"},"runtime_metrics":{"enabled":"true"}},"nodejs":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"}},"python":{"limits":{"cpu":"500m","memory":"32Mi"},"requests":{"cpu":"50m","memory":"32Mi"},"runtime_metrics":{"enabled":"true"}}}
+          - --auto-annotation-config={"dotnet":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"java":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"nodejs":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"python":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]}}
+          - --auto-instrumentation-java-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v1.33.0
+          - --auto-instrumentation-python-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.8.0
+          - --auto-instrumentation-dotnet-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.6.0
+          - --auto-instrumentation-nodejs-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node:v0.5.0
+          - --target-allocator-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-target-allocator:1.0.0
+          - --feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation
+          command:
+          - /manager
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator:2.1.0
+          imagePullPolicy: IfNotPresent
+          name: manager
+          ports:
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: amazon-cloudwatch-observability-controller-manager
+        serviceAccountName: amazon-cloudwatch-observability-controller-manager
+        terminationGracePeriodSeconds: 10
+        volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: amazon-cloudwatch-observability-controller-manager-service-cert
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-08-05T15:43:12Z"
+      lastUpdateTime: "2025-02-22T14:15:23Z"
+      message: ReplicaSet "amazon-cloudwatch-observability-controller-manager-67c546c659"
+        has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-02-22T14:35:36Z"
+      lastUpdateTime: "2025-02-22T14:35:36Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 3
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "3"
+    creationTimestamp: "2025-02-22T14:15:18Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      control-plane: controller-manager
+      pod-template-hash: 67c546c659
+    name: amazon-cloudwatch-observability-controller-manager-67c546c659
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: amazon-cloudwatch-observability-controller-manager
+      uid: bd15b9bd-13d8-4486-a9d9-cd98a5978f86
+    resourceVersion: "113154326"
+    uid: ee6af2fe-7457-4a7c-ba78-58ade11e557d
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: amazon-cloudwatch-observability
+        control-plane: controller-manager
+        pod-template-hash: 67c546c659
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: amazon-cloudwatch-observability
+          control-plane: controller-manager
+          pod-template-hash: 67c546c659
+      spec:
+        containers:
+        - args:
+          - --auto-instrumentation-config={"dotnet":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"},"runtime_metrics":{"enabled":"true"}},"java":{"limits":{"cpu":"500m","memory":"64Mi"},"requests":{"cpu":"50m","memory":"64Mi"},"runtime_metrics":{"enabled":"true"}},"nodejs":{"limits":{"cpu":"500m","memory":"128Mi"},"requests":{"cpu":"50m","memory":"128Mi"}},"python":{"limits":{"cpu":"500m","memory":"32Mi"},"requests":{"cpu":"50m","memory":"32Mi"},"runtime_metrics":{"enabled":"true"}}}
+          - --auto-annotation-config={"dotnet":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"java":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"nodejs":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"python":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]}}
+          - --auto-instrumentation-java-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v1.33.0
+          - --auto-instrumentation-python-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.8.0
+          - --auto-instrumentation-dotnet-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.6.0
+          - --auto-instrumentation-nodejs-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-node:v0.5.0
+          - --target-allocator-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-target-allocator:1.0.0
+          - --feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation
+          command:
+          - /manager
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator:2.1.0
+          imagePullPolicy: IfNotPresent
+          name: manager
+          ports:
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: amazon-cloudwatch-observability-controller-manager
+        serviceAccountName: amazon-cloudwatch-observability-controller-manager
+        terminationGracePeriodSeconds: 10
+        volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: amazon-cloudwatch-observability-controller-manager-service-cert
+  status:
+    availableReplicas: 1
+    fullyLabeledReplicas: 1
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2024-08-05T15:43:12Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      control-plane: controller-manager
+      pod-template-hash: 6dc89bd897
+    name: amazon-cloudwatch-observability-controller-manager-6dc89bd897
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: amazon-cloudwatch-observability-controller-manager
+      uid: bd15b9bd-13d8-4486-a9d9-cd98a5978f86
+    resourceVersion: "15794653"
+    uid: b11b153c-e5d7-4022-babc-499e8435c5cd
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: amazon-cloudwatch-observability
+        control-plane: controller-manager
+        pod-template-hash: 6dc89bd897
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: amazon-cloudwatch-observability
+          control-plane: controller-manager
+          pod-template-hash: 6dc89bd897
+      spec:
+        containers:
+        - args:
+          - --auto-annotation-config={"dotnet":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"java":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"python":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]}}
+          - --auto-instrumentation-java-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-java:v1.32.3
+          - --auto-instrumentation-python-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-python:v0.3.0
+          - --auto-instrumentation-dotnet-image=602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/adot-autoinstrumentation-dotnet:v1.1.0
+          - --feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation
+          command:
+          - /manager
+          image: 602401143452.dkr.ecr.us-east-1.amazonaws.com/eks/observability/cloudwatch-agent-operator:1.5.0
+          imagePullPolicy: IfNotPresent
+          name: manager
+          ports:
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: amazon-cloudwatch-observability-controller-manager
+        serviceAccountName: amazon-cloudwatch-observability-controller-manager
+        terminationGracePeriodSeconds: 10
+        tolerations:
+        - operator: Exists
+        volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: amazon-cloudwatch-observability-controller-manager-service-cert
+  status:
+    observedGeneration: 2
+    replicas: 0
+- apiVersion: apps/v1
+  kind: ReplicaSet
+  metadata:
+    annotations:
+      deployment.kubernetes.io/desired-replicas: "1"
+      deployment.kubernetes.io/max-replicas: "2"
+      deployment.kubernetes.io/revision: "2"
+    creationTimestamp: "2024-08-06T07:46:50Z"
+    generation: 2
+    labels:
+      app.kubernetes.io/name: amazon-cloudwatch-observability
+      control-plane: controller-manager
+      pod-template-hash: d84bdcb74
+    name: amazon-cloudwatch-observability-controller-manager-d84bdcb74
+    namespace: amazon-cloudwatch
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: amazon-cloudwatch-observability-controller-manager
+      uid: bd15b9bd-13d8-4486-a9d9-cd98a5978f86
+    resourceVersion: "113144085"
+    uid: 68c07b0f-f680-46fd-9828-41ee5f332594
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: amazon-cloudwatch-observability
+        control-plane: controller-manager
+        pod-template-hash: d84bdcb74
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/name: amazon-cloudwatch-observability
+          control-plane: controller-manager
+          pod-template-hash: d84bdcb74
+      spec:
+        containers:
+        - args:
+          - --auto-annotation-config={"java":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]},"python":{"daemonsets":[],"deployments":[],"namespaces":[],"statefulsets":[]}}
+          - --auto-instrumentation-java-image=public.ecr.aws/aws-observability/adot-autoinstrumentation-java:v1.32.1
+          - --auto-instrumentation-python-image=public.ecr.aws/aws-observability/adot-autoinstrumentation-python:v0.1.0
+          - --feature-gates=operator.autoinstrumentation.multi-instrumentation,operator.autoinstrumentation.multi-instrumentation.skip-container-validation
+          command:
+          - /manager
+          image: public.ecr.aws/cloudwatch-agent/cloudwatch-agent-operator:1.3.0
+          imagePullPolicy: IfNotPresent
+          name: manager
+          ports:
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        nodeSelector:
+          kubernetes.io/os: linux
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: amazon-cloudwatch-observability-controller-manager
+        serviceAccountName: amazon-cloudwatch-observability-controller-manager
+        terminationGracePeriodSeconds: 10
+        tolerations:
+        - operator: Exists
+        volumes:
+        - name: cert
+          secret:
+            defaultMode: 420
+            secretName: amazon-cloudwatch-observability-controller-manager-service-cert
+  status:
+    observedGeneration: 2
+    replicas: 0
+kind: List
+metadata:
+  resourceVersion: ""

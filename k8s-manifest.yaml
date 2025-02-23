@@ -1,0 +1,70 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flask-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: flask-app
+  name: deployment-flask
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app-flask
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: app-flask
+    spec:
+      containers:
+      - name: app-flask
+        image: 595115466597.dkr.ecr.us-east-1.amazonaws.com/flask-hello-world:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: flask-app
+  name: service-flask
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: app-flask
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: flask-app
+  name: ingress-flask
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: game-2048-group
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+        - path: /flask
+          pathType: Prefix
+          backend:
+            service:
+              name: service-flask
+              port:
+                number: 80
