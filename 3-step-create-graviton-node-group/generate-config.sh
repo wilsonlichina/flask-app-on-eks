@@ -29,7 +29,6 @@ managedNodeGroups:
     desiredCapacity: 2
     minSize: 2
     maxSize: 4
-    ami: auto
     amiFamily: AmazonLinux2
     instanceSelector:
       cpuArchitecture: arm64

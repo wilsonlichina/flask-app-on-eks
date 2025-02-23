@@ -10,7 +10,7 @@ This configuration creates a new node group with AWS Graviton instances in the e
   - vCPUs: 2
   - Memory: 4GiB
 - Number of Nodes: 2
-- OS: Amazon Linux 2
+- OS: Amazon Linux 2 (Latest EKS-optimized AMI)
 - Volume Size: 80GB
 - Security Group: Using existing cluster security group (sg-0048928e5272fe89a)
 
@@ -83,6 +83,15 @@ instanceSelector:
 ```
 
 This configuration will select the most cost-effective Graviton instance that meets these requirements.
+
+## AMI Configuration
+
+The node group uses the latest EKS-optimized Amazon Linux 2 AMI:
+```yaml
+amiFamily: AmazonLinux2
+```
+
+This automatically selects the appropriate ARM64 AMI for the EKS version.
 
 ## Next Steps
 
