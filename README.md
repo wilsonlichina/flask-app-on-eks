@@ -34,9 +34,10 @@ docker tag flask-hello-world:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amaz
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-world:latest
 ```
 
-4. Deploy to EKS:
+4. Deploy to EKS (with variable substitution):
 ```bash
-kubectl apply -f k8s-manifest.yaml
+# Create a temporary manifest with substituted variables
+envsubst < k8s-manifest.yaml | kubectl apply -f -
 ```
 
 5. Verify deployment:
@@ -73,3 +74,7 @@ The application shares the ALB with game-2048 using:
   - alb.ingress.kubernetes.io/scheme: internet-facing
   - alb.ingress.kubernetes.io/target-type: ip
   - alb.ingress.kubernetes.io/group.name: game-2048-group
+
+## Troubleshooting
+
+If you see InvalidImageName errors, ensure you're using the envsubst command as shown in step 4. This properly substitutes the AWS_ACCOUNT_ID and AWS_REGION variables in the manifest before applying it.
