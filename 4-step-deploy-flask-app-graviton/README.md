@@ -14,10 +14,49 @@ This directory contains a Flask application configured for multi-architecture de
 - Docker with buildx support
 - AWS CLI configured
 - kubectl configured for EKS cluster
-- Existing Graviton node group (created in step 3) with taint:
-  ```bash
-  kubectl taint nodes -l cpu-type=arm64 graviton=true:NoSchedule
-  ```
+- Existing Graviton node group (created in step 3)
+
+## Set up Docker BuildX
+
+1. Check if buildx is available:
+```bash
+docker buildx version
+```
+
+2. Create a new builder instance:
+```bash
+# Create a new builder
+docker buildx create --name multiarch-builder
+
+# Switch to the new builder
+docker buildx use multiarch-builder
+
+# Inspect available platforms
+docker buildx inspect --bootstrap
+```
+
+3. Verify multi-platform support:
+```bash
+# Should show linux/amd64,linux/arm64
+docker buildx inspect multiarch-builder | grep Platforms
+```
+
+## Configure Graviton Node Taints
+
+1. Verify Graviton nodes:
+```bash
+# List nodes with labels
+kubectl get nodes --show-labels | grep cpu-type=arm64
+```
+
+2. Add taints to Graviton nodes:
+```bash
+# Add taint to all Graviton nodes
+kubectl taint nodes -l cpu-type=arm64 graviton=true:NoSchedule
+
+# Verify taints
+kubectl get nodes -l cpu-type=arm64 -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
+```
 
 ## Build and Deploy
 
