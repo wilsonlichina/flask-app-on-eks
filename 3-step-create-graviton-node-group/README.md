@@ -5,9 +5,11 @@ This configuration creates a new node group with AWS Graviton instances in the e
 ## Configuration Details
 
 - Node Group Name: graviton-ng
-- Instance Type: t4g.medium (AWS Graviton)
+- Instance Requirements:
+  - CPU Architecture: ARM64 (Graviton)
+  - vCPUs: 2
+  - Memory: 4GiB
 - Number of Nodes: 2
-- Architecture: ARM64 (Graviton)
 - OS: Amazon Linux 2
 - Volume Size: 80GB
 - Security Group: Using existing cluster security group (sg-0048928e5272fe89a)
@@ -70,13 +72,17 @@ The `generate-config.sh` script automatically:
 - Generates nodegroup.yaml with the correct values
 - Configures security group attachment
 
-## Architecture Selection
+## Instance Selection
 
-The node group is configured for ARM64 architecture using:
+The node group uses instanceSelector to automatically choose appropriate Graviton instances:
 ```yaml
 instanceSelector:
   cpuArchitecture: arm64
+  vCPUs: 2
+  memory: 4GiB
 ```
+
+This configuration will select the most cost-effective Graviton instance that meets these requirements.
 
 ## Next Steps
 
