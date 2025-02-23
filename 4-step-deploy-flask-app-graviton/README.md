@@ -58,6 +58,18 @@ kubectl taint nodes -l cpu-type=arm64 graviton=true:NoSchedule
 kubectl get nodes -l cpu-type=arm64 -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
 ```
 
+3. Test taint effect (optional):
+```bash
+# Try to schedule a pod without tolerations
+kubectl run test-pod --image=nginx -n flask-app
+
+# Verify pod is not scheduled on Graviton nodes
+kubectl get pod test-pod -n flask-app -o wide
+
+# Clean up test pod
+kubectl delete pod test-pod -n flask-app
+```
+
 ## Build and Deploy
 
 1. Make the build script executable:
@@ -89,16 +101,71 @@ kubectl rollout status deployment deployment-flask -n flask-app
 kubectl get pods -n flask-app -l app.kubernetes.io/name=app-flask -o wide
 ```
 
-4. Verify deployment:
+## Verification and Troubleshooting
+
+### 1. Verify Pod Status
 ```bash
-# Check pods are on Graviton nodes
+# Check pod status and node assignment
 kubectl get pods -n flask-app -l app.kubernetes.io/name=app-flask -o wide
 
-# Check service and ingress
-kubectl get svc,ing -n flask-app
+# Describe pods for detailed information
+kubectl describe pods -n flask-app -l app.kubernetes.io/name=app-flask
+```
 
-# Check pod logs
+### 2. Check Pod Logs
+```bash
+# Check logs of all pods
 kubectl logs -n flask-app -l app.kubernetes.io/name=app-flask
+
+# Check logs of a specific pod
+kubectl logs -n flask-app <pod-name>
+
+# Check previous container logs if pod restarted
+kubectl logs -n flask-app <pod-name> --previous
+```
+
+### 3. Common Issues and Solutions
+
+#### CrashLoopBackOff
+If pods show CrashLoopBackOff status:
+1. Check container logs:
+```bash
+kubectl logs -n flask-app <pod-name> --previous
+```
+2. Verify the image was built correctly:
+```bash
+# Rebuild and push the image
+./build-and-push.sh
+
+# Restart the deployment
+kubectl rollout restart deployment deployment-flask -n flask-app
+```
+
+#### Pod Scheduling Issues
+If pods are not scheduled on Graviton nodes:
+1. Verify node taints:
+```bash
+kubectl get nodes -l cpu-type=arm64 -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
+```
+2. Check pod tolerations:
+```bash
+kubectl get pod <pod-name> -n flask-app -o yaml | grep -A 5 tolerations:
+```
+
+### 4. Verify Application Access
+1. Get the ALB URL:
+```bash
+kubectl get ingress -n flask-app ingress-flask -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+```
+
+2. Test the endpoint:
+```bash
+curl -v http://<alb-url>/flask
+```
+
+Expected response should show:
+```
+Hello, World from EKS Flask App running on aarch64!
 ```
 
 ## Architecture Details
@@ -132,17 +199,6 @@ kubectl logs -n flask-app -l app.kubernetes.io/name=app-flask
 - Displays running architecture using platform.machine()
 - Exposes /flask endpoint only
 - Uses Gunicorn as the production WSGI server
-
-## Verification
-
-After deployment, you can verify:
-1. Pods are scheduled on Graviton nodes:
-```bash
-kubectl get pods -n flask-app -o wide | grep arm64
-```
-2. Access the application through ALB at /flask path
-3. Response will show: "Hello, World from EKS Flask App running on aarch64!"
-   (aarch64 indicates ARM64 architecture)
 
 ## Rollback (if needed)
 
