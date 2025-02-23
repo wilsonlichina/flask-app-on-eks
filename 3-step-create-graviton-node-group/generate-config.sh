@@ -26,16 +26,17 @@ metadata:
 
 managedNodeGroups:
   - name: graviton-ng
-    instanceType: t4g.medium
+    instanceType: t4g.large
     desiredCapacity: 2
     minSize: 2
     maxSize: 4
-    availabilityZones: ["${AWS_REGION}a", "${AWS_REGION}b"]
     ami: auto
     amiFamily: AmazonLinux2
     arch: arm64
-    volumeSize: 20
+    volumeSize: 80
     privateNetworking: true
+    securityGroups:
+      attachIDs: ["sg-0048928e5272fe89a"]
     tags:
       k8s.io/cluster-autoscaler/enabled: "true"
       k8s.io/cluster-autoscaler/${CLUSTER_NAME}: "owned"

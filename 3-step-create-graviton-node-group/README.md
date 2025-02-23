@@ -9,7 +9,8 @@ This configuration creates a new node group with AWS Graviton instances in the e
 - Number of Nodes: 2
 - Architecture: arm64
 - OS: Amazon Linux 2
-- Volume Size: 20GB
+- Volume Size: 80GB
+- Security Group: Using existing cluster security group (sg-0048928e5272fe89a)
 
 ## Prerequisites
 
@@ -53,9 +54,10 @@ eksctl delete nodegroup --cluster my-cc-cluster --name graviton-ng
 ## Node Group Features
 
 - Uses AWS Graviton processors (ARM architecture)
-- Spread across two availability zones
 - Private networking enabled
 - Auto-scaling configuration (min: 2, max: 4)
+- 80GB EBS volume per node
+- Using existing cluster security group
 - Node labels for targeting deployments:
   - role: graviton
   - cpu-type: arm64
@@ -66,6 +68,7 @@ The `generate-config.sh` script automatically:
 - Gets AWS region from AWS CLI configuration
 - Retrieves subnet IDs from the existing EKS cluster
 - Generates nodegroup.yaml with the correct values
+- Configures security group attachment
 
 ## Next Steps
 
