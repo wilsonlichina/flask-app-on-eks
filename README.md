@@ -16,7 +16,14 @@ export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output t
 export AWS_REGION=$(aws configure get region)
 ```
 
-2. Build and push image to ECR:
+2. Create ECR repository (if it doesn't exist):
+```bash
+aws ecr create-repository \
+    --repository-name flask-hello-world \
+    --region ${AWS_REGION} || true
+```
+
+3. Build and push image to ECR:
 ```bash
 # Login to ECR
 aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
@@ -27,12 +34,12 @@ docker tag flask-hello-world:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amaz
 docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/flask-hello-world:latest
 ```
 
-3. Deploy to EKS:
+4. Deploy to EKS:
 ```bash
 kubectl apply -f k8s-manifest.yaml
 ```
 
-4. Verify deployment:
+5. Verify deployment:
 ```bash
 # Check Pod status
 kubectl get pods -n flask-app -l app.kubernetes.io/name=app-flask
